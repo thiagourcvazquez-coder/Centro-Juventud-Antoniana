@@ -837,6 +837,51 @@ body {
   color: #1a2a3a;
 }
 
+/* ================= FOOTER ================= */
+ 
+.footer {
+  background-color: #08152b;
+  text-align: center;
+  padding: 30px 20px;
+}
+ 
+.footer-copy {
+  font-size: 14px;
+  color: #aab8cc;
+  margin-bottom: 18px;
+}
+ 
+.footer-redes {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+ 
+.footer-redes a {
+  color: white;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+ 
+.footer-redes a:hover {
+  background: #1e88ff;
+  border-color: #1e88ff;
+  transform: scale(1.1);
+}
+ 
+.footer-redes svg {
+  width: 20px;
+  height: 20px;
+}
+ 
+
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 768px) {
