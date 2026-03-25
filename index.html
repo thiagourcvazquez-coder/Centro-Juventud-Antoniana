@@ -397,18 +397,30 @@
 
   <!-- ================= MODAL CONTACTO ================= -->
   <div id="modal-contacto" class="modal-overlay" onclick="cerrarModalSiOverlay(event)">
-    <div class="modal-box">
-      <h2>¡Contactate con nosotros!</h2>
-      <label for="contacto-nombre">Nombre</label>
-      <input type="text" id="contacto-nombre" placeholder="Tu nombre">
-      <label for="contacto-email">Correo Electrónico</label>
-      <input type="email" id="contacto-email" placeholder="Tu correo electrónico">
-      <label for="contacto-mensaje">Mensaje</label>
-      <textarea id="contacto-mensaje" placeholder="Escribe tu mensaje aquí..."></textarea>
-      <button class="btn-enviar" onclick="enviarContacto()">Enviar</button>
-      <button class="btn-cerrar-modal" onclick="cerrarModal()">✕ Cerrar</button>
-    </div>
-  </div>
+  <div class="modal-box">
 
+    <h2>¡Contactate con nosotros!</h2>
+
+    <form id="form-contacto" action="https://formsubmit.co/thiagovazquezalm@gmail.com" method="POST">
+
+      <label>Nombre</label>
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+
+      <label>Correo Electrónico</label>
+      <input type="email" name="email" placeholder="Tu correo electrónico" required>
+
+      <label>Mensaje</label>
+      <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+
+      <input type="hidden" name="_captcha" value="false">
+
+      <button type="submit" class="btn-enviar">Enviar</button>
+
+    </form>
+
+    <button class="btn-cerrar-modal" onclick="cerrarModal()">✕ Cerrar</button>
+
+  </div>
+</div>
 </body>
 </html>

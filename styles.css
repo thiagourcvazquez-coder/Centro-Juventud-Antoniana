@@ -798,6 +798,12 @@ body {
   resize: vertical;
 }
 
+.modal-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .btn-enviar {
   margin-top: 10px;
   padding: 14px;
@@ -809,6 +815,8 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+  width: 100%;
+  appearance: none;
 }
 
 .btn-enviar:hover { background-color: #5a3015; }

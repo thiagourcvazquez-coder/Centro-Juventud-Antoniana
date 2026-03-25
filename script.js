@@ -221,6 +221,17 @@ function enviarContacto() {
   document.getElementById("contacto-mensaje").value = "";
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form-contacto");
+
+  if (form) {
+    form.addEventListener("submit", () => {
+      mostrarToast("✅ Mensaje enviado correctamente");
+      cerrarModal();
+    });
+  }
+});
+
 
 // ================= TOAST =================
 
