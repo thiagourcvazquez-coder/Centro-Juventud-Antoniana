@@ -331,7 +331,7 @@ body {
   align-items: center;
   gap: 20px;
   width: max-content;
-  animation: scroll-logos 50s linear infinite;
+  animation: scroll-logos 70s linear infinite;
 }
 
 .logo-slide {
