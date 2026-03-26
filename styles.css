@@ -14,7 +14,7 @@ body {
 /* ================= CARTEL ================= */
 
 .cartel-outer {
-  width: 80%;
+  width: 100%;
   overflow: hidden;
   background-color: #08152b;
   display: flex;
@@ -68,6 +68,11 @@ body {
   font-size: 20px;
 }
 
+header a {
+  text-decoration: none;
+  color: white;
+}
+
 .logo img {
   height: 40px;
 }
@@ -87,6 +92,13 @@ body {
   color: white;
   cursor: pointer;
   text-decoration: none;
+  font-size: 15px;
+  transition: 0.5s;
+}
+
+.btn-primary:hover {
+  background-color: #1565c0;
+  font-size: 20px;
 }
 
 /* ================= HERO ================= */
@@ -96,7 +108,7 @@ body {
   background:
     linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
     url("images/inicio-juventud.png");
-  background-size: 80%;
+  background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -121,15 +133,20 @@ body {
 /* ================= SECCIONES ================= */
 
 .section {
-  padding: 60px 10%;
+  padding: 20px 10%;
 }
 
 .section h2 {
   margin-bottom: 30px;
   text-align: center;
+  font-size: 40px;
 }
 
 /* ================= HISTORIA ================= */
+
+#historia h2 {
+  font-size: 80px;
+}
 
 .historia-contenido {
   text-align: justify;
@@ -200,6 +217,13 @@ body {
 
 /* ================= SLIDER INDUMENTARIA ================= */
 
+.botones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
 .slider-wrapper {
   width: 100%;
   position: relative;
@@ -230,7 +254,6 @@ body {
   background-color: #112a4d;
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   text-align: center;
   transition: 0.3s;
 }
@@ -285,9 +308,6 @@ body {
 /* ================= FLECHAS SLIDER ================= */
 
 .flecha {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   font-size: 28px;
   background: rgba(0,0,0,0.5);
   border: none;
@@ -297,14 +317,12 @@ body {
   border-radius: 8px;
   z-index: 10;
   transition: background 0.2s;
+  flex-shrink: 0;
 }
 
 .flecha:hover {
   background: #1e88ff;
 }
-
-.izquierda { left: 0; }
-.derecha   { right: 0; }
 
 /* ================= SOCIOS ================= */
 
@@ -313,6 +331,10 @@ body {
   padding: 30px;
   border-radius: 15px;
   text-align: center;
+}
+
+.socios-box a {
+  margin-top: 20px;
 }
 
 /* ================= SLIDER EMPRENDIMIENTOS ================= */
@@ -398,6 +420,7 @@ body {
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(0,0,0,0.4);
   transition: transform 0.2s;
+  color: #111;
 }
 
 .carrito:hover {
@@ -416,6 +439,7 @@ body {
 
 #contador {
   background-color: red;
+  color: white;
   padding: 4px 8px;
   border-radius: 50%;
   margin-left: 5px;
@@ -837,27 +861,37 @@ body {
   color: #1a2a3a;
 }
 
+/* ================= HORARIOS ================= */
+
+.horarios {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 15px;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
 /* ================= FOOTER ================= */
- 
+
 .footer {
   background-color: #08152b;
   text-align: center;
   padding: 30px 20px;
 }
- 
+
 .footer-copy {
   font-size: 14px;
   color: #aab8cc;
   margin-bottom: 18px;
 }
- 
+
 .footer-redes {
   display: flex;
   justify-content: center;
   gap: 20px;
   margin-bottom: 15px;
 }
- 
+
 .footer-redes a {
   color: white;
   width: 42px;
@@ -869,18 +903,17 @@ body {
   justify-content: center;
   transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
- 
+
 .footer-redes a:hover {
   background: #1e88ff;
   border-color: #1e88ff;
   transform: scale(1.1);
 }
- 
+
 .footer-redes svg {
   width: 20px;
   height: 20px;
 }
- 
 
 /* ================= RESPONSIVE ================= */
 
@@ -895,8 +928,15 @@ body {
 
   .hero-overlay h1 { font-size: 32px; }
 
+  #historia h2 { font-size: 48px; }
+
   .panel-carrito {
     width: 100%;
     right: -100%;
+  }
+
+  .horarios {
+    flex-direction: column;
+    align-items: center;
   }
 }

@@ -17,7 +17,6 @@ function moverSlider(direccion) {
 
 // ================= CARRITO =================
 
-// Carga el carrito guardado al recargar la página
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -30,11 +29,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   actualizarCarrito();
+
+  const form = document.getElementById("form-contacto");
+  if (form) {
+    form.addEventListener("submit", () => {
+      mostrarToast("✅ Mensaje enviado correctamente");
+      cerrarModal();
+    });
+  }
 });
 
 
 function agregarAlCarrito(nombre, precio, imagen) {
-  // Si ya existe, aumenta la cantidad
   const existente = carrito.find(p => p.nombre === nombre);
   if (existente) {
     existente.cantidad++;
@@ -64,19 +70,19 @@ function actualizarCarrito() {
 
   if (carrito.length === 0) {
     lista.innerHTML = "<p class='carrito-vacio'>Tu carrito está vacío 🛒</p>";
-    if (totalElemento)   totalElemento.textContent   = "0";
-    if (subtotalElem)    subtotalElem.textContent     = "0";
-    if (cantidadElem)    cantidadElem.textContent     = "0 productos";
+    if (totalElemento)   totalElemento.textContent = "0";
+    if (subtotalElem)    subtotalElem.textContent   = "0";
+    if (cantidadElem)    cantidadElem.textContent   = "0 productos";
     return;
   }
 
-  let html  = "";
-  let total = 0;
+  let html      = "";
+  let total     = 0;
   let cantTotal = 0;
 
   carrito.forEach((producto, index) => {
     const subtotalProducto = producto.precio * producto.cantidad;
-    total    += subtotalProducto;
+    total     += subtotalProducto;
     cantTotal += producto.cantidad;
 
     html += `
@@ -220,17 +226,6 @@ function enviarContacto() {
   document.getElementById("contacto-email").value   = "";
   document.getElementById("contacto-mensaje").value = "";
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("form-contacto");
-
-  if (form) {
-    form.addEventListener("submit", () => {
-      mostrarToast("✅ Mensaje enviado correctamente");
-      cerrarModal();
-    });
-  }
-});
 
 
 // ================= TOAST =================
