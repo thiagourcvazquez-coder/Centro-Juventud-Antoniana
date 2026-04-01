@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>Centro Juventud Antoniana</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="script.js"></script>
 </head>
 
@@ -62,41 +63,130 @@
         <div class="slider-container">
           <div class="grid-productos" id="slider">
 
+            <!-- ===== PRODUCTOS CON TALLES ===== -->
             <div class="card">
               <img src="images/camiseta-titular.jpg" alt="Camiseta Oficial">
               <h3>Camiseta Oficial 2025</h3>
-              <p>$80.500</p>
-              <button class="btn-agregar" data-nombre="Camiseta Oficial" data-precio="80500">Agregar al carrito</button>
+              <p class="precio-base" data-precio="80500">$80.500</p>
+              <div class="talles-selector" data-tiene-talle="true">
+                <button class="talle" onclick="seleccionarTalle(this)">XS</button>
+                <button class="talle" onclick="seleccionarTalle(this)">S</button>
+                <button class="talle" onclick="seleccionarTalle(this)">M</button>
+                <button class="talle" onclick="seleccionarTalle(this)">L</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XL</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XXL</button>
+              </div>
+              <p class="precio-descuento-talle" style="display:none;">🏷️ Con descuento: $<span class="precio-final-talle"></span></p>
+              <button class="btn-agregar" data-nombre="Camiseta Oficial" data-precio="80500" data-descuento-talle="true">Agregar al carrito</button>
             </div>
 
             <div class="card">
               <img src="images/camiseta-blanca.jpg" alt="Camiseta 110 años">
               <h3>Camiseta 110 años</h3>
-              <p>$38.900</p>
-              <button class="btn-agregar" data-nombre="Camiseta 110 años" data-precio="38900">Agregar al carrito</button>
+              <p class="precio-base" data-precio="38900">$38.900</p>
+              <div class="talles-selector" data-tiene-talle="true">
+                <button class="talle" onclick="seleccionarTalle(this)">XS</button>
+                <button class="talle" onclick="seleccionarTalle(this)">S</button>
+                <button class="talle" onclick="seleccionarTalle(this)">M</button>
+                <button class="talle" onclick="seleccionarTalle(this)">L</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XL</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XXL</button>
+              </div>
+              <p class="precio-descuento-talle" style="display:none;">🏷️ Con descuento: $<span class="precio-final-talle"></span></p>
+              <button class="btn-agregar" data-nombre="Camiseta 110 años" data-precio="38900" data-descuento-talle="true">Agregar al carrito</button>
             </div>
 
             <div class="card">
               <img src="images/musculosa_azul.jpg" alt="Musculosa Azul">
               <h3>Musculosa Azul</h3>
-              <p>$31.500</p>
-              <button class="btn-agregar" data-nombre="Musculosa Azul" data-precio="31500">Agregar al carrito</button>
+              <p class="precio-base" data-precio="31500">$31.500</p>
+              <div class="talles-selector" data-tiene-talle="true">
+                <button class="talle" onclick="seleccionarTalle(this)">XS</button>
+                <button class="talle" onclick="seleccionarTalle(this)">S</button>
+                <button class="talle" onclick="seleccionarTalle(this)">M</button>
+                <button class="talle" onclick="seleccionarTalle(this)">L</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XL</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XXL</button>
+              </div>
+              <p class="precio-descuento-talle" style="display:none;">🏷️ Con descuento: $<span class="precio-final-talle"></span></p>
+              <button class="btn-agregar" data-nombre="Musculosa Azul" data-precio="31500" data-descuento-talle="true">Agregar al carrito</button>
             </div>
 
             <div class="card">
               <img src="images/campera.jpg" alt="Campera de Abrigo">
               <h3>Campera de Abrigo</h3>
-              <p>$130.000</p>
-              <button class="btn-agregar" data-nombre="Campera de Abrigo" data-precio="130000">Agregar al carrito</button>
+              <p class="precio-base" data-precio="130000">$130.000</p>
+              <div class="talles-selector" data-tiene-talle="true">
+                <button class="talle" onclick="seleccionarTalle(this)">L</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XL</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XXL</button>
+              </div>
+              <p class="precio-descuento-talle" style="display:none;">🏷️ Con descuento: $<span class="precio-final-talle"></span></p>
+              <button class="btn-agregar" data-nombre="Campera de Abrigo" data-precio="130000" data-descuento-talle="true">Agregar al carrito</button>
             </div>
 
             <div class="card">
               <img src="images/bermuda.png" alt="Bermuda CJA">
               <h3>Bermuda CJA</h3>
-              <p>$30.700</p>
-              <button class="btn-agregar" data-nombre="Bermuda CJA" data-precio="30700">Agregar al carrito</button>
+              <p class="precio-base" data-precio="30700">$30.700</p>
+              <div class="talles-selector" data-tiene-talle="true">
+                <button class="talle" onclick="seleccionarTalle(this)">XS</button>
+                <button class="talle" onclick="seleccionarTalle(this)">S</button>
+                <button class="talle" onclick="seleccionarTalle(this)">M</button>
+                <button class="talle" onclick="seleccionarTalle(this)">L</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XL</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XXL</button>
+              </div>
+              <p class="precio-descuento-talle" style="display:none;">🏷️ Con descuento: $<span class="precio-final-talle"></span></p>
+              <button class="btn-agregar" data-nombre="Bermuda CJA" data-precio="30700" data-descuento-talle="true">Agregar al carrito</button>
             </div>
 
+            <div class="card">
+              <img src="images/chombacja.webp" alt="Chomba CJA">
+              <h3>Chomba CJA</h3>
+              <p class="precio-base" data-precio="54500">$54.500</p>
+              <div class="talles-selector" data-tiene-talle="true">
+                <button class="talle" onclick="seleccionarTalle(this)">XS</button>
+                <button class="talle" onclick="seleccionarTalle(this)">S</button>
+                <button class="talle" onclick="seleccionarTalle(this)">M</button>
+                <button class="talle" onclick="seleccionarTalle(this)">L</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XL</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XXL</button>
+              </div>
+              <p class="precio-descuento-talle" style="display:none;">🏷️ Con descuento: $<span class="precio-final-talle"></span></p>
+              <button class="btn-agregar" data-nombre="Chomba CJA" data-precio="54500" data-descuento-talle="true">Agregar al carrito</button>
+            </div>
+
+            <div class="card">
+              <img src="images/rompevientoscja.webp" alt="Rompevientos CJA">
+              <h3>Rompevientos CJA</h3>
+              <p class="precio-base" data-precio="83900">$83.900</p>
+              <div class="talles-selector" data-tiene-talle="true">
+                <button class="talle" onclick="seleccionarTalle(this)">L</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XL</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XXL</button>
+              </div>
+              <p class="precio-descuento-talle" style="display:none;">🏷️ Con descuento: $<span class="precio-final-talle"></span></p>
+              <button class="btn-agregar" data-nombre="Rompevientos CJA" data-precio="83900" data-descuento-talle="true">Agregar al carrito</button>
+            </div>
+
+            <div class="card">
+              <img src="images/pantalon_largo.png" alt="Pantalón Largo CJA">
+              <h3>Pantalón Largo CJA</h3>
+              <p class="precio-base" data-precio="62500">$62.500</p>
+              <div class="talles-selector" data-tiene-talle="true">
+                <button class="talle" onclick="seleccionarTalle(this)">XS</button>
+                <button class="talle" onclick="seleccionarTalle(this)">S</button>
+                <button class="talle" onclick="seleccionarTalle(this)">M</button>
+                <button class="talle" onclick="seleccionarTalle(this)">L</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XL</button>
+                <button class="talle" onclick="seleccionarTalle(this)">XXL</button>
+              </div>
+              <p class="precio-descuento-talle" style="display:none;">🏷️ Con descuento: $<span class="precio-final-talle"></span></p>
+              <button class="btn-agregar" data-nombre="Pantalón Largo CJA" data-precio="62500" data-descuento-talle="true">Agregar al carrito</button>
+            </div>
+
+            <!-- ===== PRODUCTOS SIN TALLES ===== -->
             <div class="card">
               <img src="images/gorra_cja.jpg" alt="Gorra CJA">
               <h3>Gorra CJA</h3>
@@ -109,27 +199,6 @@
               <h3>Bolso CJA</h3>
               <p>$82.000</p>
               <button class="btn-agregar" data-nombre="Bolso CJA" data-precio="82000">Agregar al carrito</button>
-            </div>
-
-            <div class="card">
-              <img src="images/chombacja.webp" alt="Chomba CJA">
-              <h3>Chomba CJA</h3>
-              <p>$54.500</p>
-              <button class="btn-agregar" data-nombre="Chomba CJA" data-precio="54500">Agregar al carrito</button>
-            </div>
-
-            <div class="card">
-              <img src="images/rompevientoscja.webp" alt="Rompevientos CJA">
-              <h3>Rompevientos CJA</h3>
-              <p>$83.900</p>
-              <button class="btn-agregar" data-nombre="Rompevientos CJA" data-precio="83900">Agregar al carrito</button>
-            </div>
-
-            <div class="card">
-              <img src="images/pantalon_largo.png" alt="Pantalón Largo CJA">
-              <h3>Pantalón Largo CJA</h3>
-              <p>$62.500</p>
-              <button class="btn-agregar" data-nombre="Pantalón Largo CJA" data-precio="62500">Agregar al carrito</button>
             </div>
 
           </div>
@@ -254,6 +323,10 @@
         <span>Entrega</span>
         <span class="gratis">Gratis</span>
       </div>
+      <div class="resumen-fila" id="fila-descuento-socio" style="display:none;">
+        <span>Descuento socio (10%)</span>
+        <span class="descuento-monto">−$<span id="monto-descuento-socio">0</span></span>
+      </div>
       <div class="resumen-fila total-fila">
         <span>Total</span>
         <span>$<span id="total">0</span></span>
@@ -274,28 +347,18 @@
   <!-- ================= MODAL CONTACTO ================= -->
   <div id="modal-contacto" class="modal-overlay" onclick="cerrarModalSiOverlay(event)">
     <div class="modal-box">
-
       <h2>¡Contactate con nosotros!</h2>
-
       <form id="form-contacto" action="https://formsubmit.co/thiagovazquezalm@gmail.com" method="POST">
-
         <label>Nombre</label>
         <input type="text" name="nombre" placeholder="Tu nombre" required>
-
         <label>Correo Electrónico</label>
         <input type="email" name="email" placeholder="Tu correo electrónico" required>
-
         <label>Mensaje</label>
         <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
-
         <input type="hidden" name="_captcha" value="false">
-
         <button type="submit" class="btn-enviar">Enviar</button>
-
       </form>
-
       <button class="btn-cerrar-modal" onclick="cerrarModal()">✕ Cerrar</button>
-
     </div>
   </div>
 

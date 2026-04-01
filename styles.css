@@ -108,7 +108,7 @@ header a {
   background:
     linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
     url("images/inicio-juventud.png");
-  background-size: 100%;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -235,6 +235,8 @@ header a {
 .slider-container {
   overflow: hidden;
   flex: 1;
+  width: 100%;
+  display: flex;
 }
 
 .grid-productos {
@@ -242,11 +244,15 @@ header a {
   gap: 20px;
   transition: transform 0.4s ease;
   width: max-content;
+  will-change: transform;
 }
 
 /* ================= PRODUCTOS ================= */
 
 .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   width: calc((100vw - 20% - 120px) / 5 - 20px);
   min-width: 150px;
   max-width: 260px;
@@ -283,10 +289,58 @@ header a {
   margin-bottom: 15px;
 }
 
+/* ================= TALLES ================= */
+
+.talles-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  margin: 10px 0 4px;
+}
+
+.talle {
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-width: 34px;
+}
+
+.talle:hover {
+  border-color: #1e88ff;
+  color: white;
+}
+
+.talle.seleccionado {
+  background-color: #1e88ff;
+  border-color: #1e88ff;
+  color: white;
+}
+
+/* XS, S, M muestran badge de descuento en el botón */
+.talle.con-descuento.seleccionado {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+/* Precio con descuento por talle */
+.precio-descuento-talle {
+  font-size: 13px;
+  color: #28a745;
+  font-weight: 700;
+  margin: 4px 0 2px;
+}
+
 /* ================= BOTÓN AGREGAR AL CARRITO ================= */
 
 .btn-agregar {
-  margin-top: 10px;
+  margin-top: auto;
   padding: 8px 14px;
   background-color: #1e88ff;
   color: white;
@@ -558,6 +612,12 @@ header a {
   color: #666;
 }
 
+.item-descuento-talle-badge {
+  font-size: 11px;
+  color: #28a745;
+  font-weight: 700;
+}
+
 .item-cantidad-controls {
   display: flex;
   align-items: center;
@@ -653,6 +713,11 @@ header a {
 .gratis {
   color: #28a745;
   font-weight: 600;
+}
+
+.descuento-monto {
+  color: #28a745;
+  font-weight: 700;
 }
 
 .total-fila {

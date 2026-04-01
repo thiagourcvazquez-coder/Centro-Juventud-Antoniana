@@ -1,29 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historia</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historia - Centro Juventud Antoniana</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
 </head>
+
 <body>
-    <!-- ================= HEADER ================= -->
+
+  <!-- ================= HEADER ================= -->
   <header class="header">
-     <a href="./index.html">
-    <div class="logo">
-      <img src="images/escudo.png" alt="Escudo Juventud Antoniana">
-      <span>Centro Juventud Antoniana</span>
-    </div>
-</a>
+    <a href="./index.html" style="text-decoration:none; color:white;">
+      <div class="logo">
+        <img src="images/escudo.png" alt="Escudo Juventud Antoniana">
+        <span>Centro Juventud Antoniana</span>
+      </div>
+    </a>
     <nav class="nav">
       <a href="./index.html">Inicio</a>
       <a href="./historia.html">Historia</a>
-      <a href="#indumentaria">Indumentaria</a>
-      <a href="#socios">Socios</a>
+      <a href="./index.html#indumentaria">Indumentaria</a>
+      <a href="./index.html#socios">Socios</a>
       <button class="btn-primary" onclick="abrirModal()">Comunicate</button>
     </nav>
   </header>
-     <!-- ================= HISTORIA ================= -->
+
+  <!-- ================= HISTORIA ================= -->
   <section id="historia" class="section">
     <h2>Historia del Club</h2>
 
@@ -150,5 +155,52 @@
 
     </div>
   </section>
+
+  <!-- ================= LIGHTBOX ================= -->
+  <div id="lightbox" class="lightbox-overlay" onclick="cerrarLightbox()">
+    <img id="lightbox-img" src="" alt="Foto histórica">
+  </div>
+
+  <!-- ================= TOAST ================= -->
+  <div id="toast" class="toast"></div>
+
+  <!-- ================= MODAL CONTACTO ================= -->
+  <div id="modal-contacto" class="modal-overlay" onclick="cerrarModalSiOverlay(event)">
+    <div class="modal-box">
+      <h2>¡Contactate con nosotros!</h2>
+      <form id="form-contacto" action="https://formsubmit.co/thiagovazquezalm@gmail.com" method="POST">
+        <label>Nombre</label>
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
+        <label>Correo Electrónico</label>
+        <input type="email" name="email" placeholder="Tu correo electrónico" required>
+        <label>Mensaje</label>
+        <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        <input type="hidden" name="_captcha" value="false">
+        <button type="submit" class="btn-enviar">Enviar</button>
+      </form>
+      <button class="btn-cerrar-modal" onclick="cerrarModal()">✕ Cerrar</button>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <p class="footer-copy">© 2026 Centro Juventud Antoniana</p>
+    <div class="footer-redes">
+      <a href="https://www.facebook.com/CJAOficial?locale=es_LA" target="_blank" title="Facebook">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/cjaoficial/?hl=es" target="_blank" title="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://x.com/CJAOficial" target="_blank" title="X (Twitter)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@cja.oficial" target="_blank" title="TikTok">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+      </a>
+    </div>
+    <p>Desde 1916 representando a estos colores</p>
+  </footer>
+
 </body>
 </html>
