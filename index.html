@@ -3,10 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
+  <!-- FIX: faltaba viewport en index.html -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Centro Juventud Antoniana</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Supabase solo en index.html -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script defer src="script.js"></script>
+  <script defer src="script-general.js"></script>
+  <script defer src="script-tienda.js"></script>
 </head>
 
 <body>
@@ -334,9 +338,18 @@
     </div>
 
     <div class="pagos">
+      <!-- FIX: input en lugar de prompt() para el código de socio -->
+      <div class="codigo-socio-wrapper">
+        <input
+          type="text"
+          id="input-codigo-socio"
+          placeholder="Código de socio"
+          autocomplete="off"
+        >
+        <button onclick="aplicarDescuentoSocio()">🎟 Aplicar</button>
+      </div>
       <button onclick="procesarPago('tarjeta')">💳 Pagar con Tarjeta</button>
       <button onclick="procesarPago('mercadopago')">💰 Mercado Pago</button>
-      <button onclick="aplicarDescuentoSocio()">🎟 Descuento socio</button>
     </div>
 
   </div>
@@ -350,11 +363,11 @@
       <h2>¡Contactate con nosotros!</h2>
       <form id="form-contacto" action="https://formsubmit.co/thiagovazquezalm@gmail.com" method="POST">
         <label>Nombre</label>
-        <input type="text" name="nombre" placeholder="Tu nombre" required>
+        <input type="text" id="contacto-nombre" name="nombre" placeholder="Tu nombre" required>
         <label>Correo Electrónico</label>
-        <input type="email" name="email" placeholder="Tu correo electrónico" required>
+        <input type="email" id="contacto-email" name="email" placeholder="Tu correo electrónico" required>
         <label>Mensaje</label>
-        <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        <textarea id="contacto-mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
         <input type="hidden" name="_captcha" value="false">
         <button type="submit" class="btn-enviar">Enviar</button>
       </form>

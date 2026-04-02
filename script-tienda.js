@@ -1,10 +1,8 @@
 // ================= SUPABASE =================
-// Reemplazá estos dos valores con los de tu proyecto:
-// Supabase → Settings → API
-const SUPABASE_URL    = "https://rcusuuyakezwrwlpqiby.supabase.co";
-const SUPABASE_ANON   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjdXN1dXlha2V6d3J3bHBxaWJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjM3ODIsImV4cCI6MjA5MDEzOTc4Mn0.gjWgUR-JTsQ06JW5u36XgxRAux8-dN2Huz_lf9kvks4";
+const SUPABASE_URL  = "https://rcusuuyakezwrwlpqiby.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjdXN1dXlha2V6d3J3bHBxaWJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjM3ODIsImV4cCI6MjA5MDEzOTc4Mn0.gjWgUR-JTsQ06JW5u36XgxRAux8-dN2Huz_lf9kvks4";
 
-const supabaseClient  = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 
 // ================= CONSTANTES =================
@@ -48,11 +46,22 @@ function moverSlider(direccion) {
   const primeraCard = slider.querySelector(".card");
   const gap         = 20;
   const paso        = primeraCard.offsetWidth + gap;
-  const maxPos      = slider.scrollWidth - contenedor.clientWidth;
+
+  // FIX: recalcular maxPos en cada llamada para que sea correcto
+  // aunque se haya redimensionado la ventana
+  const maxPos = slider.scrollWidth - contenedor.clientWidth;
+
   posicion += direccion * paso;
   posicion = Math.max(0, Math.min(posicion, maxPos));
   slider.style.transform = `translateX(-${posicion}px)`;
 }
+
+// FIX: resetear posicion si se redimensiona la ventana para evitar desfase
+window.addEventListener("resize", () => {
+  posicion = 0;
+  const slider = document.getElementById("slider");
+  if (slider) slider.style.transform = "translateX(0)";
+});
 
 
 // ================= CARRITO =================
@@ -60,6 +69,13 @@ function moverSlider(direccion) {
 let carrito           = JSON.parse(localStorage.getItem("carrito")) || [];
 let descuentoAplicado = false;
 let codigoSocioUsado  = "";
+
+// FIX: guardar y restaurar estado del descuento entre recargas
+const descuentoGuardado = JSON.parse(localStorage.getItem("descuentoSocio"));
+if (descuentoGuardado) {
+  descuentoAplicado = descuentoGuardado.aplicado || false;
+  codigoSocioUsado  = descuentoGuardado.codigo   || "";
+}
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -96,14 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   actualizarCarrito();
-
-  const form = document.getElementById("form-contacto");
-  if (form) {
-    form.addEventListener("submit", () => {
-      mostrarToast("✅ Mensaje enviado correctamente");
-      cerrarModal();
-    });
-  }
 });
 
 
@@ -138,6 +146,7 @@ function actualizarCarrito() {
   if (carrito.length === 0) {
     descuentoAplicado = false;
     codigoSocioUsado  = "";
+    guardarDescuento();
     lista.innerHTML   = "<p class='carrito-vacio'>Tu carrito está vacío 🛒</p>";
     if (totalElemento) totalElemento.textContent = "0";
     if (subtotalElem)  subtotalElem.textContent  = "0";
@@ -167,7 +176,7 @@ function actualizarCarrito() {
     html += `
       <div class="item-carrito">
         <div class="item-imagen">
-          <img src="${producto.imagen}" alt="${producto.nombre}" onerror="this.style.display='none'">
+          <img src="${producto.imagen}" alt="${producto.nombre}" onerror="this.src='images/escudo.png'">
         </div>
         <div class="item-info">
           <p class="item-nombre">${producto.nombre}</p>
@@ -229,13 +238,22 @@ function eliminarProducto(index) {
 
 
 function actualizarContador() {
+  const contador = document.getElementById("contador");
+  if (!contador) return;
   const total = carrito.reduce((sum, p) => sum + p.cantidad, 0);
-  document.getElementById("contador").textContent = total;
+  contador.textContent = total;
 }
 
 
 function guardarCarrito() {
   localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+function guardarDescuento() {
+  localStorage.setItem("descuentoSocio", JSON.stringify({
+    aplicado: descuentoAplicado,
+    codigo:   codigoSocioUsado
+  }));
 }
 
 
@@ -252,9 +270,16 @@ function cerrarCarrito() {
 
 // ================= PAGOS =================
 
+// FIX: flag para evitar doble submit
+let pagandoEnProceso = false;
+
 function procesarPago(metodo) {
   if (carrito.length === 0) {
     mostrarToast("Tu carrito está vacío");
+    return;
+  }
+  if (pagandoEnProceso) {
+    mostrarToast("Ya se está procesando tu pago...");
     return;
   }
   mostrarToast(metodo === "tarjeta" ? "Redirigiendo al pago con tarjeta..." : "Redirigiendo a Mercado Pago...");
@@ -267,9 +292,16 @@ async function aplicarDescuentoSocio() {
     return;
   }
 
-  const codigo = prompt("Ingresá tu código de socio:");
-  if (!codigo || codigo.trim() === "") {
-    mostrarToast("Ingresá un código");
+  // FIX: usar un input en el DOM en lugar de prompt()
+  const inputCodigo = document.getElementById("input-codigo-socio");
+  const codigo = inputCodigo ? inputCodigo.value.trim() : "";
+
+  if (!codigo) {
+    mostrarToast("Ingresá un código de socio");
+    if (inputCodigo) {
+      inputCodigo.style.borderColor = "#e55";
+      setTimeout(() => { inputCodigo.style.borderColor = ""; }, 1000);
+    }
     return;
   }
 
@@ -278,7 +310,7 @@ async function aplicarDescuentoSocio() {
   const { data, error } = await supabaseClient
     .from("codigos_socio")
     .select("codigo")
-    .eq("codigo", codigo.trim())
+    .eq("codigo", codigo)
     .eq("activo", true)
     .single();
 
@@ -288,7 +320,9 @@ async function aplicarDescuentoSocio() {
   }
 
   descuentoAplicado = true;
-  codigoSocioUsado  = codigo.trim();
+  codigoSocioUsado  = codigo;
+  guardarDescuento();
+  if (inputCodigo) inputCodigo.value = "";
   actualizarCarrito();
   mostrarToast("✅ Descuento de socio del 10% aplicado");
 }
@@ -305,25 +339,26 @@ async function obtenerProductosDB() {
 }
 
 async function registrarVentaEnSupabase(metodo) {
+  pagandoEnProceso = true;
+
+  // FIX: deshabilitar botones de pago mientras se procesa
+  const botonesPago = document.querySelectorAll(".pagos button");
+  botonesPago.forEach(b => b.disabled = true);
+
   try {
-    // Traer los productos de la DB para mapear nombre → id
     const productosDB = await obtenerProductosDB();
 
-    // Armar los ítems en el formato que espera registrar_venta()
     const items = carrito.map(producto => {
-      // Extraer nombre base y talle del nombre guardado ("Camiseta Oficial — M")
       const matchTalle   = producto.nombre.match(/ — ([A-Z]+)$/);
       const talle        = matchTalle ? matchTalle[1] : "sin_talle";
       const nombreBase   = matchTalle
         ? producto.nombre.replace(/ — [A-Z]+$/, "").trim()
         : producto.nombre.trim();
 
-      // Buscar el producto en la DB por nombre
       const productoDB   = productosDB.find(p =>
         p.nombre.toLowerCase() === nombreBase.toLowerCase()
       );
 
-      // Calcular precio base y descuento de talle
       const descTalle    = TALLES_CON_DESCUENTO.includes(talle) ? DESCUENTO_TALLE : 0;
       const precioBase   = producto.precio + descTalle;
 
@@ -336,7 +371,6 @@ async function registrarVentaEnSupabase(metodo) {
       };
     });
 
-    // Llamar a la función de Supabase
     const { data, error } = await supabaseClient.rpc("registrar_venta", {
       p_cliente_id:   null,
       p_metodo_pago:  metodo,
@@ -353,11 +387,11 @@ async function registrarVentaEnSupabase(metodo) {
 
     console.log("Venta registrada con ID:", data);
 
-    // Limpiar carrito después de la compra
     carrito            = [];
     descuentoAplicado  = false;
     codigoSocioUsado   = "";
     guardarCarrito();
+    guardarDescuento();
     actualizarCarrito();
     cerrarCarrito();
     mostrarToast("✅ Compra registrada correctamente");
@@ -365,67 +399,9 @@ async function registrarVentaEnSupabase(metodo) {
   } catch (err) {
     console.error("Error inesperado:", err);
     mostrarToast("⚠️ Error de conexión con la base de datos");
+  } finally {
+    // FIX: siempre rehabilitar los botones al terminar
+    pagandoEnProceso = false;
+    botonesPago.forEach(b => b.disabled = false);
   }
-}
-
-
-// ================= LIGHTBOX =================
-
-function abrirLightbox(src) {
-  document.getElementById("lightbox-img").src = src;
-  document.getElementById("lightbox").classList.add("abierto");
-}
-
-function cerrarLightbox() {
-  document.getElementById("lightbox").classList.remove("abierto");
-}
-
-
-// ================= MODAL CONTACTO =================
-
-function abrirModal() {
-  document.getElementById("modal-contacto").classList.add("abierto");
-}
-
-function cerrarModal() {
-  document.getElementById("modal-contacto").classList.remove("abierto");
-}
-
-function cerrarModalSiOverlay(event) {
-  if (event.target.id === "modal-contacto") {
-    cerrarModal();
-  }
-}
-
-function enviarContacto() {
-  const nombre  = document.getElementById("contacto-nombre").value.trim();
-  const email   = document.getElementById("contacto-email").value.trim();
-  const mensaje = document.getElementById("contacto-mensaje").value.trim();
-
-  if (!nombre || !email || !mensaje) {
-    mostrarToast("Por favor completá todos los campos");
-    return;
-  }
-
-  mostrarToast(`✅ Mensaje enviado, ${nombre}!`);
-  cerrarModal();
-
-  document.getElementById("contacto-nombre").value  = "";
-  document.getElementById("contacto-email").value   = "";
-  document.getElementById("contacto-mensaje").value = "";
-}
-
-
-// ================= TOAST =================
-
-let toastTimeout;
-
-function mostrarToast(mensaje) {
-  const toast = document.getElementById("toast");
-  toast.textContent = mensaje;
-  toast.classList.add("visible");
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
-    toast.classList.remove("visible");
-  }, 2500);
 }

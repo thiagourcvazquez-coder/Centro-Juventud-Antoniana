@@ -1005,3 +1005,45 @@ header a {
     align-items: center;
   }
 }
+
+/* ================= INPUT CÓDIGO SOCIO ================= */
+
+.codigo-socio-wrapper {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.codigo-socio-wrapper input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #111;
+  background: white;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.codigo-socio-wrapper input:focus {
+  border-color: #1e88ff;
+}
+
+.codigo-socio-wrapper button {
+  padding: 12px 16px;
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+  width: auto;
+}
+
+.codigo-socio-wrapper button:hover {
+  background: #333;
+}

@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Historia - Centro Juventud Antoniana</title>
   <link rel="stylesheet" href="styles.css">
-  <script defer src="script.js"></script>
+  <!-- FIX: solo script-general, sin Supabase ni carrito -->
+  <script defer src="script-general.js"></script>
 </head>
 
 <body>
@@ -47,6 +48,8 @@
       </p>
 
       <iframe
+        title="Ubicación Basílica San Francisco Salta"
+        loading="lazy"
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3622.150945709765!2d-65.41075922375265!3d-24.790284307889994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a324d4eea5%3A0xe937e1831038d499!2sBas%C3%ADlica%20Menor%20y%20Convento%20de%20San%20Francisco%20en%20Salta!5e0!3m2!1ses-419!2sar!4v1773354612848!5m2!1ses-419!2sar"
         width="100%" height="350"></iframe>
 
@@ -62,6 +65,8 @@
       <h3>Estadio Fray Honorato Pistoia</h3>
 
       <iframe
+        title="Ubicación Estadio Fray Honorato Pistoia"
+        loading="lazy"
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14486.442398307543!2d-65.39258725!3d-24.8087841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc3a05ba06537%3A0xa2fdd497c409e115!2sEstadio%20Fray%20Honorato%20Pistoia!5e0!3m2!1ses-419!2sar!4v1773351539577!5m2!1ses-419!2sar"
         width="100%" height="350"></iframe>
 
@@ -170,11 +175,11 @@
       <h2>¡Contactate con nosotros!</h2>
       <form id="form-contacto" action="https://formsubmit.co/thiagovazquezalm@gmail.com" method="POST">
         <label>Nombre</label>
-        <input type="text" name="nombre" placeholder="Tu nombre" required>
+        <input type="text" id="contacto-nombre" name="nombre" placeholder="Tu nombre" required>
         <label>Correo Electrónico</label>
-        <input type="email" name="email" placeholder="Tu correo electrónico" required>
+        <input type="email" id="contacto-email" name="email" placeholder="Tu correo electrónico" required>
         <label>Mensaje</label>
-        <textarea name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        <textarea id="contacto-mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
         <input type="hidden" name="_captcha" value="false">
         <button type="submit" class="btn-enviar">Enviar</button>
       </form>
