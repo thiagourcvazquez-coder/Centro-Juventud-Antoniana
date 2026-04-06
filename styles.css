@@ -1060,7 +1060,9 @@ header a {
   background-attachment: fixed, fixed;
 }
 
-.pagina-historia .section{
+.pagina-historia .section,
+.pagina-historia .header,
+.pagina-historia . footer{
   padding-left: calc(10% +90px);
   padding-right: calc(10% +90px);
 }
