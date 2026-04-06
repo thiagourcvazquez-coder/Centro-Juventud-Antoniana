@@ -1047,3 +1047,14 @@ header a {
 .codigo-socio-wrapper button:hover {
   background: #333;
 }
+
+/*============================ MARCO HISTORIA========================*/
+
+.pagina-historia {
+  background-image:
+    url("images/marco-bufanda.jpg")
+    url("images/marco-bufanda.jpg")
+  background-repeat: nor-repeat, no-repeat;
+  background-size: 80px 100%, 80px 100%;
+  background-attachament: fixed, fixed;
+}
