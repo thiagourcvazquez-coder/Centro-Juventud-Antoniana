@@ -1056,13 +1056,13 @@ header a {
     url("images/marco-bufanda.jpeg");
   background-repeat: no-repeat, no-repeat;
   background-position: left top, right top;
-  background-size: 80px 100%, 80px 100%;
+  background-size: 100px 100%, 100px 100%;
   background-attachment: fixed, fixed;
 }
 
 .pagina-historia .section,
 .pagina-historia .header,
-.pagina-historia . footer {
+.pagina-historia .footer {
   padding-left: calc(10% + 90px);
   padding-right: calc(10% + 90px);
 }
