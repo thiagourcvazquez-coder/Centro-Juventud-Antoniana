@@ -1063,7 +1063,7 @@ header a {
 .pagina-historia .section,
 .pagina-historia .header,
 .pagina-historia . footer {
-  padding-left: calc(10% +90px);
-  padding-right: calc(10% +90px);
+  padding-left: calc(10% + 90px);
+  padding-right: calc(10% + 90px);
 }
 
