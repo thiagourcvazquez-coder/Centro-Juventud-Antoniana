@@ -1052,9 +1052,16 @@ header a {
 
 .pagina-historia {
   background-image:
-    url("images/marco-bufanda.jpg")
-    url("images/marco-bufanda.jpg")
-  background-repeat: nor-repeat, no-repeat;
+    url("images/marco-bufanda.jpg"),
+    url("images/marco-bufanda.jpg");
+  background-repeat: no-repeat, no-repeat;
+  background-position: left top, right top;
   background-size: 80px 100%, 80px 100%;
-  background-attachament: fixed, fixed;
+  background-attachment: fixed, fixed;
 }
+
+.pagina-historia .section{
+  padding-left: calc(10% +90px);
+  padding-right: calc(10% +90px);
+}
+
