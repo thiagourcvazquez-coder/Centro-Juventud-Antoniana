@@ -339,9 +339,20 @@ async function obtenerProductosDB() {
 }
 
 async function registrarVentaEnSupabase(metodo) {
+  // Datos del cliente
+  const nombreCliente = document.getElementById("cliente-nombre").value.trim();
+  const emailCliente  = document.getElementById("cliente-email").value.trim();
+  const telCliente    = document.getElementById("cliente-telefono").value.trim();
+  const dniCliente    = document.getElementById("cliente-dni").value.trim();
+
+  if (!nombreCliente || !emailCliente || !telCliente || !dniCliente) {
+    mostrarToast("⚠️ Completá todos tus datos de contacto");
+    return;
+  }
+
+  if (pagandoEnProceso) return;
   pagandoEnProceso = true;
 
-  // FIX: deshabilitar botones de pago mientras se procesa
   const botonesPago = document.querySelectorAll(".pagos button");
   botonesPago.forEach(b => b.disabled = true);
 
@@ -349,18 +360,18 @@ async function registrarVentaEnSupabase(metodo) {
     const productosDB = await obtenerProductosDB();
 
     const items = carrito.map(producto => {
-      const matchTalle   = producto.nombre.match(/ — ([A-Z]+)$/);
-      const talle        = matchTalle ? matchTalle[1] : "sin_talle";
-      const nombreBase   = matchTalle
+      const matchTalle  = producto.nombre.match(/ — ([A-Z]+)$/);
+      const talle       = matchTalle ? matchTalle[1] : "sin_talle";
+      const nombreBase  = matchTalle
         ? producto.nombre.replace(/ — [A-Z]+$/, "").trim()
         : producto.nombre.trim();
 
-      const productoDB   = productosDB.find(p =>
+      const productoDB  = productosDB.find(p =>
         p.nombre.toLowerCase() === nombreBase.toLowerCase()
       );
 
-      const descTalle    = TALLES_CON_DESCUENTO.includes(talle) ? DESCUENTO_TALLE : 0;
-      const precioBase   = producto.precio + descTalle;
+      const descTalle   = TALLES_CON_DESCUENTO.includes(talle) ? DESCUENTO_TALLE : 0;
+      const precioBase  = producto.precio + descTalle;
 
       return {
         producto_id:     productoDB ? productoDB.id : null,
@@ -372,11 +383,15 @@ async function registrarVentaEnSupabase(metodo) {
     });
 
     const { data, error } = await supabaseClient.rpc("registrar_venta", {
-      p_cliente_id:   null,
-      p_metodo_pago:  metodo,
-      p_desc_socio:   descuentoAplicado,
-      p_codigo_socio: codigoSocioUsado || null,
-      p_items:        items
+      p_cliente_id:     null,
+      p_nombre_cliente: nombreCliente,
+      p_email_cliente:  emailCliente,
+      p_tel_cliente:    telCliente,
+      p_dni_cliente:    dniCliente,
+      p_metodo_pago:    metodo,
+      p_desc_socio:     descuentoAplicado,
+      p_codigo_socio:   codigoSocioUsado || null,
+      p_items:          items
     });
 
     if (error) {
@@ -385,11 +400,10 @@ async function registrarVentaEnSupabase(metodo) {
       return;
     }
 
-    console.log("Venta registrada con ID:", data);
-
-    carrito            = [];
-    descuentoAplicado  = false;
-    codigoSocioUsado   = "";
+    // Solo vaciamos el carrito si la venta fue exitosa
+    carrito           = [];
+    descuentoAplicado = false;
+    codigoSocioUsado  = "";
     guardarCarrito();
     guardarDescuento();
     actualizarCarrito();
@@ -400,7 +414,6 @@ async function registrarVentaEnSupabase(metodo) {
     console.error("Error inesperado:", err);
     mostrarToast("⚠️ Error de conexión con la base de datos");
   } finally {
-    // FIX: siempre rehabilitar los botones al terminar
     pagandoEnProceso = false;
     botonesPago.forEach(b => b.disabled = false);
   }

@@ -499,6 +499,39 @@ header a {
   margin-left: 5px;
 }
 
+/* ================= DATOS CLIENTE ================= */
+.datos-cliente {
+  padding: 15px 0 5px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.datos-cliente h3 {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #111;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.datos-cliente input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #111;
+  background: white;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.datos-cliente input:focus {
+  border-color: #1e88ff;
+}
+
 /* ================= PANEL CARRITO ================= */
 
 .panel-carrito {
