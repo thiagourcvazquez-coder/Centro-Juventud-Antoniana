@@ -1083,7 +1083,7 @@ header a {
 
 /*============================ MARCO HISTORIA========================*/
 
-.pagina-historia {
+/*.pagina-historia {
   background-image:
     url("images/marco-bufanda.jpg"),
     url("images/marco-bufanda.jpg");
@@ -1098,5 +1098,5 @@ header a {
 .pagina-historia .footer {
   padding-left: calc(10% + 50px);
   padding-right: calc(10% + 50px);
-}
+}*/
 
