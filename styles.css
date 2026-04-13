@@ -1100,3 +1100,312 @@ header a {
   padding-right: calc(10% + 50px);
 }*/
 
+/*=========================== POLIDEPORTIVO ========================*/
+#polideportivo h1 {
+  font-size: 80px;
+  text-align: center;
+}
+
+.polideportivo-contenido {
+  text-align: justify;
+  line-height: 1.6;
+}
+
+.polideportivo-contenido h2 {
+  margin: 30px 0 20px 0;
+  color: #1e88ff;
+  font-size: 40px;
+  text-align: center;
+}
+
+.polideportivo-contenido p {
+  margin-bottom: 15px;
+}
+
+.polideportivo-contenido h3 {
+  margin: 30px 0 20px 0;
+  color: #1e88ff;
+  font-size: 40px;
+  text-align: center;
+} 
+
+.polideportivo-contenido h4 {
+  margin: 30px 0 20px 0;
+  color: #1e88ff;
+  font-size: 40px;
+  text-align: center;
+} 
+
+.polideportivo-contenido h5 {
+  margin: 30px 0 20px 0;
+  color: #1e88ff;
+  font-size: 40px;
+  text-align: center;
+} 
+
+.polideportivo-contenido h6 {
+  margin: 30px 0 20px 0;
+  color: #1e88ff;
+  font-size: 40px;
+  text-align: center;
+} 
+
+/* ================= box polideportivo ================= */
+.polideportivo-box {
+  background-color: #112a4d;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.inferiores-box {
+  background-color: #112a4d;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.voley-box {
+  background-color: #112a4d;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.hockey-box {
+  background-color: #112a4d;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.futsal-box {
+  background-color: #112a4d;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.handball-box {
+  background-color: #112a4d;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+/* ================= Slider polideportivo ================= */
+.botones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-wrapper {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-container {
+  overflow: hidden;
+  flex: 1;
+  width: 100%;
+}
+
+.grid-futbol {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.4s ease;
+}
+
+.slider-item {
+  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
+  max-width: calc(50% - 10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .slider-item {
+    flex: 0 0 100%; /* 1 imagen */
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .slider-item {
+    flex: 0 0 100%; /* 1 imagen también */
+    max-width: 100%;
+  }
+}
+
+.slider-item img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* ================= Slider inferiores ================= */
+.slider-inferiores {
+  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
+  max-width: calc(50% - 10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .slider-inferiores {
+    flex: 0 0 100%; /* 1 imagen */
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .slider-inferiores {
+    flex: 0 0 100%; 
+    max-width: 100%;
+  }
+}
+
+.slider-inferiores img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* ================= Slider Voley ================= */
+.slider-voley {
+  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
+  max-width: calc(50% - 10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .slider-voley {
+    flex: 0 0 100%; /* 1 imagen */
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .slider-voley {
+    flex: 0 0 100%; 
+    max-width: 100%;
+  }
+}
+
+.slider-voley img {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* ================= Slider Hockey ================= */
+.slider-hockey {
+  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
+  max-width: calc(50% - 10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .slider-hockey {
+    flex: 0 0 100%; /* 1 imagen */
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .slider-hockey {
+    flex: 0 0 100%; 
+    max-width: 100%;
+  }
+}
+
+.slider-hockey img {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* ================= Slider Futsal ================= */
+.slider-futsal {
+  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
+  max-width: calc(50% - 10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .slider-futsal {
+    flex: 0 0 100%; /* 1 imagen */
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .slider-futsal {
+    flex: 0 0 100%; 
+    max-width: 100%;
+  }
+}
+
+.slider-futsal img {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* ================= Slider Handball ================= */
+.slider-handball {
+  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
+  max-width: calc(50% - 10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .slider-handball {
+    flex: 0 0 100%; /* 1 imagen */
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .slider-handball {
+    flex: 0 0 100%; 
+    max-width: 100%;
+  }
+}
+
+.slider-handball  img {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  border-radius: 10px;
+}
