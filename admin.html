@@ -43,6 +43,7 @@
       align-items: center;
       min-height: 100vh;
       background: radial-gradient(ellipse at 60% 40%, #1a3a6e 0%, #0b1d3a 70%);
+      padding: 16px;
     }
 
     .login-box {
@@ -57,15 +58,8 @@
     }
 
     @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .login-logo {
@@ -76,9 +70,7 @@
       margin-bottom: 32px;
     }
 
-    .login-logo img {
-      height: 48px;
-    }
+    .login-logo img { height: 48px; }
 
     .login-logo span {
       font-family: 'Bebas Neue', sans-serif;
@@ -121,9 +113,7 @@
       outline: none;
     }
 
-    .login-box input:focus {
-      border-color: var(--azul-claro);
-    }
+    .login-box input:focus { border-color: var(--azul-claro); }
 
     .btn-login {
       width: 100%;
@@ -140,13 +130,8 @@
       font-family: 'DM Sans', sans-serif;
     }
 
-    .btn-login:hover {
-      background: #1565c0;
-    }
-
-    .btn-login:active {
-      transform: scale(0.98);
-    }
+    .btn-login:hover  { background: #1565c0; }
+    .btn-login:active { transform: scale(0.98); }
 
     .login-error {
       font-size: 13px;
@@ -162,7 +147,7 @@
       min-height: 100vh;
     }
 
-    /*SIDEBAR*/
+    /*===== SIDEBAR ======*/
     .sidebar {
       position: fixed;
       top: 0;
@@ -184,9 +169,7 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .sidebar-logo img {
-      height: 36px;
-    }
+    .sidebar-logo img { height: 36px; }
 
     .sidebar-logo span {
       font-family: 'Bebas Neue', sans-serif;
@@ -220,15 +203,12 @@
       font-family: 'DM Sans', sans-serif;
     }
 
-    .nav-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--blanco);
-    }
+    .nav-item:hover  { background: rgba(255, 255, 255, 0.05); color: var(--blanco); }
+    .nav-item.active { background: var(--azul-claro); color: var(--blanco); }
 
-    .nav-item.active {
-      background: var(--azul-claro);
-      color: var(--blanco);
-    }
+    /* FIX [3]: estilos para spans internos de nav-item */
+    .nav-item .nav-icon  { font-size: 18px; line-height: 1; flex-shrink: 0; }
+    .nav-item .nav-label { font-size: 14px; }
 
     .sidebar-footer {
       padding: 16px 12px;
@@ -249,9 +229,7 @@
       transition: background 0.2s;
     }
 
-    .btn-logout:hover {
-      background: rgba(229, 57, 53, 0.2);
-    }
+    .btn-logout:hover { background: rgba(229, 57, 53, 0.2); }
 
     /*===== MAIN ======*/
     .main {
@@ -260,9 +238,7 @@
       min-height: 100vh;
     }
 
-    .page {
-      display: none;
-    }
+    .page { display: none; }
 
     .page.active {
       display: block;
@@ -270,15 +246,8 @@
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .page-header {
@@ -355,13 +324,8 @@
       transition: border-color 0.2s;
     }
 
-    .search-input:focus {
-      border-color: var(--azul-claro);
-    }
-
-    .search-input::placeholder {
-      color: var(--gris);
-    }
+    .search-input:focus        { border-color: var(--azul-claro); }
+    .search-input::placeholder { color: var(--gris); }
 
     .btn-add {
       padding: 9px 18px;
@@ -376,14 +340,9 @@
       transition: background 0.2s;
     }
 
-    .btn-add:hover {
-      background: #1565c0;
-    }
+    .btn-add:hover { background: #1565c0; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+    table { width: 100%; border-collapse: collapse; }
 
     thead th {
       padding: 12px 16px;
@@ -401,9 +360,7 @@
       transition: background 0.15s;
     }
 
-    tbody tr:hover {
-      background: rgba(255, 255, 255, 0.03);
-    }
+    tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
 
     tbody td {
       padding: 13px 16px;
@@ -419,30 +376,11 @@
       font-weight: 700;
     }
 
-    .badge-tarjeta {
-      background: rgba(30, 136, 255, 0.15);
-      color: #5eb8ff;
-    }
-
-    .badge-mercadopago {
-      background: rgba(0, 158, 227, 0.15);
-      color: #00d4ff;
-    }
-
-    .badge-efectivo {
-      background: rgba(40, 167, 69, 0.15);
-      color: #5dd87a;
-    }
-
-    .badge-activo {
-      background: rgba(40, 167, 69, 0.15);
-      color: #5dd87a;
-    }
-
-    .badge-inactivo {
-      background: rgba(229, 57, 53, 0.15);
-      color: #ff6b6b;
-    }
+    .badge-tarjeta     { background: rgba(30, 136, 255, 0.15); color: #5eb8ff; }
+    .badge-mercadopago { background: rgba(0, 158, 227, 0.15);  color: #00d4ff; }
+    .badge-efectivo    { background: rgba(40, 167, 69, 0.15);  color: #5dd87a; }
+    .badge-activo      { background: rgba(40, 167, 69, 0.15);  color: #5dd87a; }
+    .badge-inactivo    { background: rgba(229, 57, 53, 0.15);  color: #ff6b6b; }
 
     .btn-action {
       padding: 5px 12px;
@@ -455,30 +393,12 @@
       transition: all 0.15s;
     }
 
-    .btn-edit {
-      background: rgba(30, 136, 255, 0.15);
-      color: #5eb8ff;
-    }
+    .btn-edit         { background: rgba(30, 136, 255, 0.15); color: #5eb8ff; }
+    .btn-edit:hover   { background: rgba(30, 136, 255, 0.3); }
+    .btn-delete       { background: rgba(229, 57, 53, 0.15);  color: #ff6b6b; margin-left: 6px; }
+    .btn-delete:hover { background: rgba(229, 57, 53, 0.3); }
 
-    .btn-edit:hover {
-      background: rgba(30, 136, 255, 0.3);
-    }
-
-    .btn-delete {
-      background: rgba(229, 57, 53, 0.15);
-      color: #ff6b6b;
-      margin-left: 6px;
-    }
-
-    .btn-delete:hover {
-      background: rgba(229, 57, 53, 0.3);
-    }
-
-    .loading-row td {
-      text-align: center;
-      padding: 40px;
-      color: var(--gris);
-    }
+    .loading-row td { text-align: center; padding: 40px; color: var(--gris); }
 
     /* MODAL */
     .modal-overlay {
@@ -489,11 +409,10 @@
       z-index: 1000;
       align-items: center;
       justify-content: center;
+      padding: 16px;
     }
 
-    .modal-overlay.open {
-      display: flex;
-    }
+    .modal-overlay.open { display: flex; }
 
     .modal-box {
       background: #112a4d;
@@ -514,9 +433,7 @@
       margin-bottom: 24px;
     }
 
-    .form-group {
-      margin-bottom: 16px;
-    }
+    .form-group { margin-bottom: 16px; }
 
     .form-group label {
       display: block;
@@ -543,13 +460,9 @@
     }
 
     .form-group input:focus,
-    .form-group select:focus {
-      border-color: var(--azul-claro);
-    }
+    .form-group select:focus { border-color: var(--azul-claro); }
 
-    .form-group select option {
-      background: #112a4d;
-    }
+    .form-group select option { background: #112a4d; }
 
     .modal-actions {
       display: flex;
@@ -583,9 +496,7 @@
       transition: background 0.2s;
     }
 
-    .btn-save:hover {
-      background: #1565c0;
-    }
+    .btn-save:hover { background: #1565c0; }
 
     /* TALLES GRID */
     .talles-grid {
@@ -615,11 +526,7 @@
       margin-bottom: 14px;
     }
 
-    .stock-card-header h3 {
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.3;
-    }
+    .stock-card-header h3 { font-size: 15px; font-weight: 700; line-height: 1.3; }
 
     .stock-card-header .precio {
       font-size: 13px;
@@ -628,12 +535,7 @@
       white-space: nowrap;
     }
 
-    .talles-stock {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
+    .talles-stock { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 
     .talle-chip {
       display: flex;
@@ -645,33 +547,15 @@
       min-width: 44px;
     }
 
-    .talle-chip .talle-label {
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--gris);
-      letter-spacing: 1px;
-    }
+    .talle-chip .talle-label { font-size: 10px; font-weight: 700; color: var(--gris); letter-spacing: 1px; }
+    .talle-chip .talle-qty  { font-size: 18px; font-weight: 700; color: white; }
+    .talle-chip.low .talle-qty { color: var(--naranja); }
+    .talle-chip.out .talle-qty { color: var(--rojo); }
 
-    .talle-chip .talle-qty {
-      font-size: 18px;
-      font-weight: 700;
-      color: white;
-    }
-
-    .talle-chip.low .talle-qty {
-      color: var(--naranja);
-    }
-
-    .talle-chip.out .talle-qty {
-      color: var(--rojo);
-    }
-
-    .stock-card-actions {
-      display: flex;
-      gap: 8px;
-    }
+    .stock-card-actions { display: flex; gap: 8px; }
 
     /* TOAST */
+    /* FIX [1]: el bloque @media estaba pegado AQUÍ ADENTRO — movido al final del <style> */
     .toast {
       position: fixed;
       bottom: 28px;
@@ -688,194 +572,135 @@
       transition: all 0.3s;
       z-index: 9999;
       pointer-events: none;
-
-      /*
-  ================================================
-  ADMIN RESPONSIVE — agregar al final de admin.html
-  dentro del <style>, o como <link> separado.
-  ================================================
-*/
-
-      /* ---- TABLET (≤ 1024px) ---- */
-      @media (max-width: 1024px) {
-        :root {
-          --sidebar-w: 200px;
-        }
-
-        .sidebar-logo span {
-          font-size: 14px;
-        }
-
-        .nav-item {
-          font-size: 13px;
-          padding: 10px 12px;
-        }
-
-        .main {
-          padding: 24px 20px;
-        }
-      }
-
-      /* ---- MOBILE (≤ 768px) ---- */
-      @media (max-width: 768px) {
-
-        /* Sidebar se convierte en barra inferior */
-        .sidebar {
-          position: fixed;
-          top: auto;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          width: 100%;
-          height: auto;
-          flex-direction: row;
-          border-right: none;
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
-          z-index: 200;
-        }
-
-        .sidebar-logo {
-          display: none;
-        }
-
-        .sidebar-footer {
-          display: none;
-        }
-
-        .sidebar-nav {
-          flex-direction: row;
-          justify-content: space-around;
-          padding: 8px 4px;
-          gap: 0;
-        }
-
-        .nav-item {
-          flex-direction: column;
-          align-items: center;
-          gap: 3px;
-          padding: 8px 6px;
-          font-size: 10px;
-          border-radius: 8px;
-          flex: 1;
-          justify-content: center;
-        }
-
-        /* Ocultar texto largo en iconos */
-        .nav-item::first-line {
-          font-size: 18px;
-        }
-
-        /* Main ocupa todo el ancho y deja espacio para la barra inferior */
-        .main {
-          margin-left: 0;
-          padding: 16px 12px 90px 12px;
-        }
-
-        /* Header de cada página */
-        .page-header {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 12px;
-          margin-bottom: 16px;
-        }
-
-        .page-header h1 {
-          font-size: 28px;
-        }
-
-        /* Stats: 2 columnas */
-        .stats-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 10px;
-        }
-
-        .stat-card .value {
-          font-size: 24px;
-        }
-
-        /* Tabla: scroll horizontal */
-        .tabla-container {
-          border-radius: 10px;
-        }
-
-        table {
-          min-width: 600px;
-        }
-
-        .table-toolbar {
-          flex-direction: column;
-          align-items: stretch;
-          gap: 8px;
-        }
-
-        .search-input {
-          width: 100%;
-        }
-
-        /* Stock: 1 columna */
-        .stock-grid {
-          grid-template-columns: 1fr;
-        }
-
-        /* Modal full width */
-        .modal-box {
-          padding: 24px 18px;
-          margin: 0 8px;
-        }
-
-        /* Login box */
-        .login-box {
-          padding: 30px 24px;
-          margin: 16px;
-        }
-
-        /* Toast */
-        .toast {
-          bottom: 90px;
-          right: 12px;
-          left: 12px;
-          text-align: center;
-        }
-      }
-
-      /* ---- MOBILE PEQUEÑO (≤ 400px) ---- */
-      @media (max-width: 400px) {
-        .nav-item {
-          font-size: 9px;
-          padding: 6px 4px;
-        }
-
-        .stats-grid {
-          grid-template-columns: 1fr 1fr;
-          gap: 8px;
-        }
-
-        .stat-card {
-          padding: 14px;
-        }
-      }
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .toast.show { opacity: 1; transform: translateY(0); }
 
     /* EMPTY STATE */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--gris);
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--gris); }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; }
+
+    /* =====================================================
+       RESPONSIVE — FIX [1]: movido FUERA del .toast { }
+       ===================================================== */
+
+    /* ---- TABLET (≤ 1024px) ---- */
+    @media (max-width: 1024px) {
+      :root { --sidebar-w: 200px; }
+      .sidebar-logo span { font-size: 14px; }
+      .nav-item          { font-size: 13px; padding: 10px 12px; }
+      .main              { padding: 24px 20px; }
     }
 
-    .empty-state .icon {
-      font-size: 48px;
-      margin-bottom: 12px;
+    /* ---- MOBILE (≤ 768px) ---- */
+    @media (max-width: 768px) {
+
+      /* Sidebar → barra inferior */
+      .sidebar {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        z-index: 200;
+      }
+
+      .sidebar-logo   { display: none; }
+      .sidebar-footer { display: none; }
+
+      .sidebar-nav {
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 8px 4px;
+        gap: 0;
+        width: 100%;
+      }
+
+      /* FIX [2]: eliminado ::first-line (inválido en <button>)
+         FIX [3]: .nav-icon y .nav-label controlan tamaño por separado */
+      .nav-item {
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 8px 6px;
+        font-size: 10px;
+        border-radius: 8px;
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .nav-item .nav-icon  { font-size: 20px; line-height: 1; }
+      .nav-item .nav-label { font-size: 10px; }
+
+      /* Main: ocupa todo y deja espacio para barra inferior */
+      .main {
+        margin-left: 0;
+        padding: 16px 12px 90px 12px;
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .page-header h1 { font-size: 28px; }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .stat-card .value { font-size: 24px; }
+
+      .tabla-container { border-radius: 10px; }
+
+      table { min-width: 600px; }
+
+      .table-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+
+      .search-input { width: 100%; }
+
+      .stock-grid { grid-template-columns: 1fr; }
+
+      .modal-box {
+        padding: 24px 18px;
+        margin: 0;
+      }
+
+      /* FIX [4]: max-width añadido para que no desborde en pantallas muy chicas */
+      .login-box {
+        padding: 30px 24px;
+        max-width: 100%;
+      }
+
+      .toast {
+        bottom: 90px;
+        right: 12px;
+        left: 12px;
+        text-align: center;
+      }
     }
 
-    .empty-state p {
-      font-size: 15px;
+    /* ---- MOBILE PEQUEÑO (≤ 400px) ---- */
+    @media (max-width: 400px) {
+      .nav-item   { font-size: 9px; padding: 6px 4px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .stat-card  { padding: 14px; }
     }
+
   </style>
 </head>
 
@@ -907,11 +732,24 @@
         <img src="images/escudo.png" alt="CJA">
         <span>CJA Admin</span>
       </div>
+      <!-- FIX [3]: spans internos para controlar emoji vs texto en mobile -->
       <nav class="sidebar-nav">
-        <button class="nav-item active" onclick="showPage('ventas',   this)">💳 Ventas</button>
-        <button class="nav-item" onclick="showPage('clientes', this)">👥 Clientes</button>
-        <button class="nav-item" onclick="showPage('stock',    this)">📦 Stock</button>
-        <button class="nav-item" onclick="showPage('codigos',  this)">🎟️ Códigos</button>
+        <button class="nav-item active" onclick="showPage('ventas', this)">
+          <span class="nav-icon">💳</span>
+          <span class="nav-label">Ventas</span>
+        </button>
+        <button class="nav-item" onclick="showPage('clientes', this)">
+          <span class="nav-icon">👥</span>
+          <span class="nav-label">Clientes</span>
+        </button>
+        <button class="nav-item" onclick="showPage('stock', this)">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Stock</span>
+        </button>
+        <button class="nav-item" onclick="showPage('codigos', this)">
+          <span class="nav-icon">🎟️</span>
+          <span class="nav-label">Códigos</span>
+        </button>
       </nav>
       <div class="sidebar-footer">
         <button class="btn-logout" onclick="logout()">⏻ Cerrar sesión</button>
@@ -946,9 +784,7 @@
                 </tr>
               </thead>
               <tbody id="ventas-tbody">
-                <tr class="loading-row">
-                  <td colspan="8">Cargando...</td>
-                </tr>
+                <tr class="loading-row"><td colspan="8">Cargando...</td></tr>
               </tbody>
             </table>
           </div>
@@ -977,9 +813,7 @@
                 </tr>
               </thead>
               <tbody id="clientes-tbody">
-                <tr class="loading-row">
-                  <td colspan="5">Cargando...</td>
-                </tr>
+                <tr class="loading-row"><td colspan="5">Cargando...</td></tr>
               </tbody>
             </table>
           </div>
@@ -1015,9 +849,7 @@
                 </tr>
               </thead>
               <tbody id="codigos-tbody">
-                <tr class="loading-row">
-                  <td colspan="4">Cargando...</td>
-                </tr>
+                <tr class="loading-row"><td colspan="4">Cargando...</td></tr>
               </tbody>
             </table>
           </div>
@@ -1073,12 +905,12 @@
       </div>
       <div id="talles-inputs">
         <div class="talles-grid">
-          <div class="form-group"><label>XS</label> <input type="number" id="form-stock-xs" value="0"></div>
-          <div class="form-group"><label>S</label> <input type="number" id="form-stock-s" value="0"></div>
-          <div class="form-group"><label>M</label> <input type="number" id="form-stock-m" value="0"></div>
-          <div class="form-group"><label>L</label> <input type="number" id="form-stock-l" value="0"></div>
-          <div class="form-group"><label>XL</label> <input type="number" id="form-stock-xl" value="0"></div>
-          <div class="form-group"><label>XXL</label><input type="number" id="form-stock-xxl" value="0"></div>
+          <div class="form-group"><label>XS</label>  <input type="number" id="form-stock-xs"  value="0"></div>
+          <div class="form-group"><label>S</label>   <input type="number" id="form-stock-s"   value="0"></div>
+          <div class="form-group"><label>M</label>   <input type="number" id="form-stock-m"   value="0"></div>
+          <div class="form-group"><label>L</label>   <input type="number" id="form-stock-l"   value="0"></div>
+          <div class="form-group"><label>XL</label>  <input type="number" id="form-stock-xl"  value="0"></div>
+          <div class="form-group"><label>XXL</label> <input type="number" id="form-stock-xxl" value="0"></div>
         </div>
       </div>
       <div id="sin-talle-input" style="display:none">
