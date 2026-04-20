@@ -1,797 +1,1122 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel Admin - CJA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin - CJA</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
+  <style>
     :root {
-        --azul: #0b1d3a;
-        --azul-med: #112a4d;
-        --azul-claro: #1e88ff;
-        --blanco: #f0f4f8;
-        --gris: #8a9ab0;
-        --rojo: #e53935;
-        --verde: #28a745;
-        --naranja: #f59e0b;
-        --sidebar-w: 240px;
+      --azul: #0b1d3a;
+      --azul-med: #112a4d;
+      --azul-claro: #1e88ff;
+      --blanco: #f0f4f8;
+      --gris: #8a9ab0;
+      --rojo: #e53935;
+      --verde: #28a745;
+      --naranja: #f59e0b;
+      --sidebar-w: 240px;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-        font-family: 'DM Sans', sans-serif;
-        background-color: var(--azul);
-        color: var(--blanco);
-        min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--azul);
+      color: var(--blanco);
+      min-height: 100vh;
     }
 
     /*====== LOGIN ======*/
     #login-screen {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background: radial-gradient(ellipse at 60% 40%, #1a3a6e 0%, #0b1d3a 70%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 60% 40%, #1a3a6e 0%, #0b1d3a 70%);
     }
 
     .login-box {
-        background: var(--azul-med);
-        border: 1px solid rgba(30,136,255,0.2);
-        border-radius: 20px;
-        box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-        padding: 50px 45px;
-        width: 100%;
-        max-width: 420px;
-        animation: slideUp 0.5s ease;
+      background: var(--azul-med);
+      border: 1px solid rgba(30, 136, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      padding: 50px 45px;
+      width: 100%;
+      max-width: 420px;
+      animation: slideUp 0.5s ease;
     }
 
     @keyframes slideUp {
-        from { opacity: 0; transform: translateY(24px); }
-        to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .login-logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
     }
 
-    .login-logo img { height: 48px; }
+    .login-logo img {
+      height: 48px;
+    }
 
     .login-logo span {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 22px;
-        letter-spacing: 2px;
-        color: var(--blanco);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: var(--blanco);
     }
 
     .login-box h2 {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--azul-claro);
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-bottom: 28px;
-        text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--azul-claro);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      text-align: center;
     }
 
     .login-box label {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--gris);
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 6px;
-        display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gris);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: block;
     }
 
     .login-box input {
-        font-size: 15px;
-        font-family: 'DM Sans', sans-serif;
-        color: var(--blanco);
-        background: rgba(255,255,255,0.05);
-        border: 1.5px solid rgba(255,255,255,0.1);
-        border-radius: 10px;
-        padding: 13px 16px;
-        width: 100%;
-        margin-bottom: 18px;
-        transition: border-color 0.2s;
-        outline: none;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--blanco);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 13px 16px;
+      width: 100%;
+      margin-bottom: 18px;
+      transition: border-color 0.2s;
+      outline: none;
     }
 
-    .login-box input:focus { border-color: var(--azul-claro); }
+    .login-box input:focus {
+      border-color: var(--azul-claro);
+    }
 
     .btn-login {
-        width: 100%;
-        padding: 14px;
-        background: var(--azul-claro);
-        border: none;
-        border-radius: 10px;
-        color: white;
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        cursor: pointer;
-        transition: background 0.2s, transform 0.1s;
-        font-family: 'DM Sans', sans-serif;
+      width: 100%;
+      padding: 14px;
+      background: var(--azul-claro);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      font-family: 'DM Sans', sans-serif;
     }
 
-    .btn-login:hover  { background: #1565c0; }
-    .btn-login:active { transform: scale(0.98); }
+    .btn-login:hover {
+      background: #1565c0;
+    }
+
+    .btn-login:active {
+      transform: scale(0.98);
+    }
 
     .login-error {
-        font-size: 13px;
-        color: #ff6b6b;
-        margin-top: 12px;
-        text-align: center;
-        display: none;
+      font-size: 13px;
+      color: #ff6b6b;
+      margin-top: 12px;
+      text-align: center;
+      display: none;
     }
 
     /*===== PANEL PRINCIPAL ======*/
-    #admin-panel { display: none; min-height: 100vh; }
+    #admin-panel {
+      display: none;
+      min-height: 100vh;
+    }
 
     /*SIDEBAR*/
     .sidebar {
-        position: fixed;
-        top: 0; left: 0;
-        width: var(--sidebar-w);
-        height: 100vh;
-        background: #08152b;
-        border-right: 1px solid rgba(255,255,255,0.06);
-        display: flex;
-        flex-direction: column;
-        z-index: 100;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: #08152b;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
     }
 
     .sidebar-logo {
-        display: flex;
-        padding: 24px 20px;
-        align-items: center;
-        gap: 10px;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      padding: 24px 20px;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .sidebar-logo img { height: 36px; }
+    .sidebar-logo img {
+      height: 36px;
+    }
 
     .sidebar-logo span {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 17px;
-        letter-spacing: 1.5px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 17px;
+      letter-spacing: 1.5px;
     }
 
     .sidebar-nav {
-        flex: 1;
-        padding: 20px 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+      flex: 1;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .nav-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 11px 14px;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--gris);
-        transition: all 0.2s;
-        border: none;
-        background: none;
-        width: 100%;
-        text-align: left;
-        font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gris);
+      transition: all 0.2s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: 'DM Sans', sans-serif;
     }
 
-    .nav-item:hover  { background: rgba(255,255,255,0.05); color: var(--blanco); }
-    .nav-item.active { background: var(--azul-claro); color: var(--blanco); }
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--blanco);
+    }
+
+    .nav-item.active {
+      background: var(--azul-claro);
+      color: var(--blanco);
+    }
 
     .sidebar-footer {
-        padding: 16px 12px;
-        border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .btn-logout {
-        width: 100%;
-        padding: 10px 14px;
-        background: rgba(229,57,53,0.1);
-        border: 1px solid rgba(229,57,53,0.2);
-        border-radius: 10px;
-        color: #ff6b6b;
-        font-size: 13px;
-        font-weight: 600;
-        font-family: 'DM Sans', sans-serif;
-        cursor: pointer;
-        transition: background 0.2s;
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(229, 57, 53, 0.1);
+      border: 1px solid rgba(229, 57, 53, 0.2);
+      border-radius: 10px;
+      color: #ff6b6b;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
     }
 
-    .btn-logout:hover { background: rgba(229,57,53,0.2); }
+    .btn-logout:hover {
+      background: rgba(229, 57, 53, 0.2);
+    }
 
     /*===== MAIN ======*/
     .main {
-        margin-left: var(--sidebar-w);
-        padding: 32px 36px;
-        min-height: 100vh;
+      margin-left: var(--sidebar-w);
+      padding: 32px 36px;
+      min-height: 100vh;
     }
 
-    .page { display: none; }
-    .page.active { display: block; animation: fadeIn 0.3s ease; }
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(8px); }
-        to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .page-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
     }
 
     .page-header h1 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 36px;
-        letter-spacing: 2px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 2px;
     }
 
     /* STATS */
     .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 16px;
-        margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
     }
 
     .stat-card {
-        background: var(--azul-med);
-        border-radius: 14px;
-        padding: 20px;
-        border: 1px solid rgba(255,255,255,0.05);
+      background: var(--azul-med);
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .stat-card .label {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--gris);
-        margin-bottom: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gris);
+      margin-bottom: 8px;
     }
 
     .stat-card .value {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 32px;
-        color: var(--azul-claro);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      color: var(--azul-claro);
     }
 
     /* TABLA */
     .tabla-container {
-        background: var(--azul-med);
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.05);
+      background: var(--azul-med);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .table-toolbar {
-        padding: 16px 20px;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .search-input {
-        padding: 9px 14px;
-        border: 1.5px solid rgba(255,255,255,0.08);
-        background: rgba(255,255,255,0.05);
-        border-radius: 8px;
-        color: white;
-        font-size: 13px;
-        font-family: 'DM Sans', sans-serif;
-        outline: none;
-        width: 240px;
-        transition: border-color 0.2s;
+      padding: 9px 14px;
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      color: white;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      width: 240px;
+      transition: border-color 0.2s;
     }
 
-    .search-input:focus        { border-color: var(--azul-claro); }
-    .search-input::placeholder { color: var(--gris); }
+    .search-input:focus {
+      border-color: var(--azul-claro);
+    }
+
+    .search-input::placeholder {
+      color: var(--gris);
+    }
 
     .btn-add {
-        padding: 9px 18px;
-        background: var(--azul-claro);
-        border: none;
-        border-radius: 8px;
-        color: white;
-        font-size: 13px;
-        font-weight: 600;
-        font-family: 'DM Sans', sans-serif;
-        cursor: pointer;
-        transition: background 0.2s;
+      padding: 9px 18px;
+      background: var(--azul-claro);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
     }
 
-    .btn-add:hover { background: #1565c0; }
+    .btn-add:hover {
+      background: #1565c0;
+    }
 
-    table { width: 100%; border-collapse: collapse; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
     thead th {
-        padding: 12px 16px;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: var(--gris);
-        text-align: left;
-        background: rgba(0,0,0,0.15);
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gris);
+      text-align: left;
+      background: rgba(0, 0, 0, 0.15);
     }
 
     tbody tr {
-        border-top: 1px solid rgba(255,255,255,0.04);
-        transition: background 0.15s;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      transition: background 0.15s;
     }
 
-    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
 
     tbody td {
-        padding: 13px 16px;
-        font-size: 13px;
-        color: rgba(255,255,255,0.85);
+      padding: 13px 16px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
     }
 
     .badge {
-        display: inline-block;
-        padding: 3px 10px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 700;
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
     }
 
-    .badge-tarjeta     { background: rgba(30,136,255,0.15); color: #5eb8ff; }
-    .badge-mercadopago { background: rgba(0,158,227,0.15);  color: #00d4ff; }
-    .badge-efectivo    { background: rgba(40,167,69,0.15);  color: #5dd87a; }
-    .badge-activo      { background: rgba(40,167,69,0.15);  color: #5dd87a; }
-    .badge-inactivo    { background: rgba(229,57,53,0.15);  color: #ff6b6b; }
+    .badge-tarjeta {
+      background: rgba(30, 136, 255, 0.15);
+      color: #5eb8ff;
+    }
+
+    .badge-mercadopago {
+      background: rgba(0, 158, 227, 0.15);
+      color: #00d4ff;
+    }
+
+    .badge-efectivo {
+      background: rgba(40, 167, 69, 0.15);
+      color: #5dd87a;
+    }
+
+    .badge-activo {
+      background: rgba(40, 167, 69, 0.15);
+      color: #5dd87a;
+    }
+
+    .badge-inactivo {
+      background: rgba(229, 57, 53, 0.15);
+      color: #ff6b6b;
+    }
 
     .btn-action {
-        padding: 5px 12px;
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        border: none;
-        font-family: 'DM Sans', sans-serif;
-        transition: all 0.15s;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
     }
 
-    .btn-edit         { background: rgba(30,136,255,0.15); color: #5eb8ff; }
-    .btn-edit:hover   { background: rgba(30,136,255,0.3); }
-    .btn-delete       { background: rgba(229,57,53,0.15);  color: #ff6b6b; margin-left: 6px; }
-    .btn-delete:hover { background: rgba(229,57,53,0.3); }
+    .btn-edit {
+      background: rgba(30, 136, 255, 0.15);
+      color: #5eb8ff;
+    }
 
-    .loading-row td { text-align: center; padding: 40px; color: var(--gris); }
+    .btn-edit:hover {
+      background: rgba(30, 136, 255, 0.3);
+    }
+
+    .btn-delete {
+      background: rgba(229, 57, 53, 0.15);
+      color: #ff6b6b;
+      margin-left: 6px;
+    }
+
+    .btn-delete:hover {
+      background: rgba(229, 57, 53, 0.3);
+    }
+
+    .loading-row td {
+      text-align: center;
+      padding: 40px;
+      color: var(--gris);
+    }
 
     /* MODAL */
     .modal-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.6);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
     }
 
-    .modal-overlay.open { display: flex; }
+    .modal-overlay.open {
+      display: flex;
+    }
 
     .modal-box {
-        background: #112a4d;
-        border-radius: 18px;
-        padding: 36px;
-        width: 100%;
-        max-width: 500px;
-        border: 1px solid rgba(255,255,255,0.08);
-        animation: slideUp 0.3s ease;
-        max-height: 90vh;
-        overflow-y: auto;
+      background: #112a4d;
+      border-radius: 18px;
+      padding: 36px;
+      width: 100%;
+      max-width: 500px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      animation: slideUp 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal-box h3 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 24px;
-        letter-spacing: 1.5px;
-        margin-bottom: 24px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
     }
 
-    .form-group { margin-bottom: 16px; }
+    .form-group {
+      margin-bottom: 16px;
+    }
 
     .form-group label {
-        display: block;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: var(--gris);
-        margin-bottom: 6px;
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gris);
+      margin-bottom: 6px;
     }
 
     .form-group input,
     .form-group select {
-        width: 100%;
-        padding: 11px 14px;
-        background: rgba(255,255,255,0.05);
-        border: 1.5px solid rgba(255,255,255,0.1);
-        border-radius: 8px;
-        color: white;
-        font-size: 14px;
-        font-family: 'DM Sans', sans-serif;
-        outline: none;
-        transition: border-color 0.2s;
+      width: 100%;
+      padding: 11px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
     }
 
     .form-group input:focus,
-    .form-group select:focus { border-color: var(--azul-claro); }
+    .form-group select:focus {
+      border-color: var(--azul-claro);
+    }
 
-    .form-group select option { background: #112a4d; }
+    .form-group select option {
+      background: #112a4d;
+    }
 
     .modal-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 24px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
     }
 
     .btn-cancel {
-        padding: 10px 20px;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 8px;
-        color: var(--gris);
-        font-size: 14px;
-        font-family: 'DM Sans', sans-serif;
-        font-weight: 600;
-        cursor: pointer;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--gris);
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
     }
 
     .btn-save {
-        padding: 10px 24px;
-        background: var(--azul-claro);
-        border: none;
-        border-radius: 8px;
-        color: white;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        font-family: 'DM Sans', sans-serif;
-        transition: background 0.2s;
+      padding: 10px 24px;
+      background: var(--azul-claro);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s;
     }
 
-    .btn-save:hover { background: #1565c0; }
+    .btn-save:hover {
+      background: #1565c0;
+    }
 
     /* TALLES GRID */
     .talles-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
     }
 
     /* STOCK CARDS */
     .stock-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
     }
 
     .stock-card {
-        background: var(--azul-med);
-        border-radius: 14px;
-        padding: 20px;
-        border: 1px solid rgba(255,255,255,0.05);
+      background: var(--azul-med);
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .stock-card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
     }
 
-    .stock-card-header h3 { font-size: 15px; font-weight: 700; line-height: 1.3; }
+    .stock-card-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
 
     .stock-card-header .precio {
-        font-size: 13px;
-        color: var(--azul-claro);
-        font-weight: 700;
-        white-space: nowrap;
+      font-size: 13px;
+      color: var(--azul-claro);
+      font-weight: 700;
+      white-space: nowrap;
     }
 
-    .talles-stock { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .talles-stock {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
 
     .talle-chip {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background: rgba(255,255,255,0.05);
-        border-radius: 8px;
-        padding: 6px 10px;
-        min-width: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 6px 10px;
+      min-width: 44px;
     }
 
-    .talle-chip .talle-label { font-size: 10px; font-weight: 700; color: var(--gris); letter-spacing: 1px; }
-    .talle-chip .talle-qty  { font-size: 18px; font-weight: 700; color: white; }
-    .talle-chip.low .talle-qty { color: var(--naranja); }
-    .talle-chip.out .talle-qty { color: var(--rojo); }
+    .talle-chip .talle-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gris);
+      letter-spacing: 1px;
+    }
 
-    .stock-card-actions { display: flex; gap: 8px; }
+    .talle-chip .talle-qty {
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .talle-chip.low .talle-qty {
+      color: var(--naranja);
+    }
+
+    .talle-chip.out .talle-qty {
+      color: var(--rojo);
+    }
+
+    .stock-card-actions {
+      display: flex;
+      gap: 8px;
+    }
 
     /* TOAST */
     .toast {
-        position: fixed;
-        bottom: 28px;
-        right: 28px;
-        background: #1e3a5f;
-        border: 1px solid rgba(30,136,255,0.3);
-        color: white;
-        padding: 13px 20px;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: 500;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: all 0.3s;
-        z-index: 9999;
-        pointer-events: none;
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #1e3a5f;
+      border: 1px solid rgba(30, 136, 255, 0.3);
+      color: white;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s;
+      z-index: 9999;
+      pointer-events: none;
+
+      /*
+  ================================================
+  ADMIN RESPONSIVE — agregar al final de admin.html
+  dentro del <style>, o como <link> separado.
+  ================================================
+*/
+
+      /* ---- TABLET (≤ 1024px) ---- */
+      @media (max-width: 1024px) {
+        :root {
+          --sidebar-w: 200px;
+        }
+
+        .sidebar-logo span {
+          font-size: 14px;
+        }
+
+        .nav-item {
+          font-size: 13px;
+          padding: 10px 12px;
+        }
+
+        .main {
+          padding: 24px 20px;
+        }
+      }
+
+      /* ---- MOBILE (≤ 768px) ---- */
+      @media (max-width: 768px) {
+
+        /* Sidebar se convierte en barra inferior */
+        .sidebar {
+          position: fixed;
+          top: auto;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: auto;
+          flex-direction: row;
+          border-right: none;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          z-index: 200;
+        }
+
+        .sidebar-logo {
+          display: none;
+        }
+
+        .sidebar-footer {
+          display: none;
+        }
+
+        .sidebar-nav {
+          flex-direction: row;
+          justify-content: space-around;
+          padding: 8px 4px;
+          gap: 0;
+        }
+
+        .nav-item {
+          flex-direction: column;
+          align-items: center;
+          gap: 3px;
+          padding: 8px 6px;
+          font-size: 10px;
+          border-radius: 8px;
+          flex: 1;
+          justify-content: center;
+        }
+
+        /* Ocultar texto largo en iconos */
+        .nav-item::first-line {
+          font-size: 18px;
+        }
+
+        /* Main ocupa todo el ancho y deja espacio para la barra inferior */
+        .main {
+          margin-left: 0;
+          padding: 16px 12px 90px 12px;
+        }
+
+        /* Header de cada página */
+        .page-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+
+        .page-header h1 {
+          font-size: 28px;
+        }
+
+        /* Stats: 2 columnas */
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+        }
+
+        .stat-card .value {
+          font-size: 24px;
+        }
+
+        /* Tabla: scroll horizontal */
+        .tabla-container {
+          border-radius: 10px;
+        }
+
+        table {
+          min-width: 600px;
+        }
+
+        .table-toolbar {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 8px;
+        }
+
+        .search-input {
+          width: 100%;
+        }
+
+        /* Stock: 1 columna */
+        .stock-grid {
+          grid-template-columns: 1fr;
+        }
+
+        /* Modal full width */
+        .modal-box {
+          padding: 24px 18px;
+          margin: 0 8px;
+        }
+
+        /* Login box */
+        .login-box {
+          padding: 30px 24px;
+          margin: 16px;
+        }
+
+        /* Toast */
+        .toast {
+          bottom: 90px;
+          right: 12px;
+          left: 12px;
+          text-align: center;
+        }
+      }
+
+      /* ---- MOBILE PEQUEÑO (≤ 400px) ---- */
+      @media (max-width: 400px) {
+        .nav-item {
+          font-size: 9px;
+          padding: 6px 4px;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+
+        .stat-card {
+          padding: 14px;
+        }
+      }
     }
 
-    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* EMPTY STATE */
-    .empty-state { text-align: center; padding: 60px 20px; color: var(--gris); }
-    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
-    .empty-state p { font-size: 15px; }
-</style>
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gris);
+    }
+
+    .empty-state .icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state p {
+      font-size: 15px;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ===== LOGIN ===== -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">
-      <img src="images/escudo.png" alt="CJA">
-      <span>Centro Juventud Antoniana</span>
-    </div>
-    <h2>Panel de Administración</h2>
-    <label>Email</label>
-    <input type="email" id="login-email" placeholder="admin@cja.com" autocomplete="email">
-    <label>Contraseña</label>
-    <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
-    <button class="btn-login" onclick="login()">Iniciar Sesión</button>
-    <p class="login-error" id="login-error">Email o contraseña incorrectos</p>
-  </div>
-</div>
-
-<!-- ===== PANEL ===== -->
-<div id="admin-panel">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <img src="images/escudo.png" alt="CJA">
-      <span>CJA Admin</span>
-    </div>
-    <nav class="sidebar-nav">
-      <button class="nav-item active" onclick="showPage('ventas',   this)">💳 Ventas</button>
-      <button class="nav-item"        onclick="showPage('clientes', this)">👥 Clientes</button>
-      <button class="nav-item"        onclick="showPage('stock',    this)">📦 Stock</button>
-      <button class="nav-item"        onclick="showPage('codigos',  this)">🎟️ Códigos</button>
-    </nav>
-    <div class="sidebar-footer">
-      <button class="btn-logout" onclick="logout()">⏻ Cerrar sesión</button>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- VENTAS -->
-    <div id="page-ventas" class="page active">
-      <div class="page-header">
-        <h1>Ventas</h1>
+  <!-- ===== LOGIN ===== -->
+  <div id="login-screen">
+    <div class="login-box">
+      <div class="login-logo">
+        <img src="images/escudo.png" alt="CJA">
+        <span>Centro Juventud Antoniana</span>
       </div>
-      <div class="stats-grid" id="ventas-stats"></div>
-      <div class="tabla-container">
-        <div class="table-toolbar">
-          <input class="search-input" placeholder="🔍 Buscar por cliente..." oninput="filtrarVentas(this.value)">
-        </div>
-        <div style="overflow-x:auto">
-          <table>
-            <thead>
-              <tr>
-                <th>Fecha</th>
-                <th>Cliente</th>
-                <th>Email</th>
-                <th>DNI</th>
-                <th>Teléfono</th>
-                <th>Total</th>
-                <th>Método</th>
-                <th>Socio</th>
-              </tr>
-            </thead>
-            <tbody id="ventas-tbody">
-              <tr class="loading-row"><td colspan="8">Cargando...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- CLIENTES -->
-    <div id="page-clientes" class="page">
-      <div class="page-header">
-        <h1>Clientes</h1>
-        <button class="btn-add" onclick="abrirModalCliente()">+ Nuevo Cliente</button>
-      </div>
-      <div class="tabla-container">
-        <div class="table-toolbar">
-          <input class="search-input" placeholder="🔍 Buscar cliente..." oninput="filtrarClientes(this.value)">
-        </div>
-        <div style="overflow-x:auto">
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="clientes-tbody">
-              <tr class="loading-row"><td colspan="5">Cargando...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- STOCK -->
-    <div id="page-stock" class="page">
-      <div class="page-header">
-        <h1>Stock</h1>
-        <button class="btn-add" onclick="abrirModalProducto()">+ Nuevo Producto</button>
-      </div>
-      <div id="stock-grid" class="stock-grid">
-        <p style="color:var(--gris)">Cargando...</p>
-      </div>
-    </div>
-
-    <!-- CÓDIGOS -->
-    <div id="page-codigos" class="page">
-      <div class="page-header">
-        <h1>Códigos Socio</h1>
-        <button class="btn-add" onclick="abrirModalCodigo()">+ Nuevo Código</button>
-      </div>
-      <div class="tabla-container">
-        <div style="overflow-x:auto">
-          <table>
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Estado</th>
-                <th>Creado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="codigos-tbody">
-              <tr class="loading-row"><td colspan="4">Cargando...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-  </main>
-</div>
-
-<!-- MODAL CLIENTE -->
-<div id="modal-cliente" class="modal-overlay">
-  <div class="modal-box">
-    <h3 id="modal-cliente-title">Nuevo Cliente</h3>
-    <input type="hidden" id="cliente-id">
-    <div class="form-group">
-      <label>Nombre</label>
-      <input type="text" id="form-cliente-nombre" placeholder="Nombre completo">
-    </div>
-    <div class="form-group">
+      <h2>Panel de Administración</h2>
       <label>Email</label>
-      <input type="email" id="form-cliente-email" placeholder="email@ejemplo.com">
-    </div>
-    <div class="form-group">
-      <label>Teléfono</label>
-      <input type="tel" id="form-cliente-telefono" placeholder="387...">
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="cerrarModal('modal-cliente')">Cancelar</button>
-      <button class="btn-save"   onclick="guardarCliente()">Guardar</button>
+      <input type="email" id="login-email" placeholder="admin@cja.com" autocomplete="email">
+      <label>Contraseña</label>
+      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      <button class="btn-login" onclick="login()">Iniciar Sesión</button>
+      <p class="login-error" id="login-error">Email o contraseña incorrectos</p>
     </div>
   </div>
-</div>
 
-<!-- MODAL PRODUCTO -->
-<div id="modal-producto" class="modal-overlay">
-  <div class="modal-box">
-    <h3 id="modal-producto-title">Nuevo Producto</h3>
-    <input type="hidden" id="producto-id">
-    <div class="form-group">
-      <label>Nombre</label>
-      <input type="text" id="form-prod-nombre" placeholder="Nombre del producto">
-    </div>
-    <div class="form-group">
-      <label>Precio Base ($)</label>
-      <input type="number" id="form-prod-precio" placeholder="80500">
-    </div>
-    <div class="form-group">
-      <label>¿Tiene talles?</label>
-      <select id="form-prod-talle" onchange="toggleTalles()">
-        <option value="true">Sí</option>
-        <option value="false">No</option>
-      </select>
-    </div>
-    <div id="talles-inputs">
-      <div class="talles-grid">
-        <div class="form-group"><label>XS</label> <input type="number" id="form-stock-xs"  value="0"></div>
-        <div class="form-group"><label>S</label>  <input type="number" id="form-stock-s"   value="0"></div>
-        <div class="form-group"><label>M</label>  <input type="number" id="form-stock-m"   value="0"></div>
-        <div class="form-group"><label>L</label>  <input type="number" id="form-stock-l"   value="0"></div>
-        <div class="form-group"><label>XL</label> <input type="number" id="form-stock-xl"  value="0"></div>
-        <div class="form-group"><label>XXL</label><input type="number" id="form-stock-xxl" value="0"></div>
+  <!-- ===== PANEL ===== -->
+  <div id="admin-panel">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="images/escudo.png" alt="CJA">
+        <span>CJA Admin</span>
       </div>
-    </div>
-    <div id="sin-talle-input" style="display:none">
+      <nav class="sidebar-nav">
+        <button class="nav-item active" onclick="showPage('ventas',   this)">💳 Ventas</button>
+        <button class="nav-item" onclick="showPage('clientes', this)">👥 Clientes</button>
+        <button class="nav-item" onclick="showPage('stock',    this)">📦 Stock</button>
+        <button class="nav-item" onclick="showPage('codigos',  this)">🎟️ Códigos</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="btn-logout" onclick="logout()">⏻ Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- VENTAS -->
+      <div id="page-ventas" class="page active">
+        <div class="page-header">
+          <h1>Ventas</h1>
+        </div>
+        <div class="stats-grid" id="ventas-stats"></div>
+        <div class="tabla-container">
+          <div class="table-toolbar">
+            <input class="search-input" placeholder="🔍 Buscar por cliente..." oninput="filtrarVentas(this.value)">
+          </div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Cliente</th>
+                  <th>Email</th>
+                  <th>DNI</th>
+                  <th>Teléfono</th>
+                  <th>Total</th>
+                  <th>Método</th>
+                  <th>Socio</th>
+                </tr>
+              </thead>
+              <tbody id="ventas-tbody">
+                <tr class="loading-row">
+                  <td colspan="8">Cargando...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLIENTES -->
+      <div id="page-clientes" class="page">
+        <div class="page-header">
+          <h1>Clientes</h1>
+          <button class="btn-add" onclick="abrirModalCliente()">+ Nuevo Cliente</button>
+        </div>
+        <div class="tabla-container">
+          <div class="table-toolbar">
+            <input class="search-input" placeholder="🔍 Buscar cliente..." oninput="filtrarClientes(this.value)">
+          </div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Teléfono</th>
+                  <th>Fecha</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="clientes-tbody">
+                <tr class="loading-row">
+                  <td colspan="5">Cargando...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- STOCK -->
+      <div id="page-stock" class="page">
+        <div class="page-header">
+          <h1>Stock</h1>
+          <button class="btn-add" onclick="abrirModalProducto()">+ Nuevo Producto</button>
+        </div>
+        <div id="stock-grid" class="stock-grid">
+          <p style="color:var(--gris)">Cargando...</p>
+        </div>
+      </div>
+
+      <!-- CÓDIGOS -->
+      <div id="page-codigos" class="page">
+        <div class="page-header">
+          <h1>Códigos Socio</h1>
+          <button class="btn-add" onclick="abrirModalCodigo()">+ Nuevo Código</button>
+        </div>
+        <div class="tabla-container">
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Estado</th>
+                  <th>Creado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="codigos-tbody">
+                <tr class="loading-row">
+                  <td colspan="4">Cargando...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL CLIENTE -->
+  <div id="modal-cliente" class="modal-overlay">
+    <div class="modal-box">
+      <h3 id="modal-cliente-title">Nuevo Cliente</h3>
+      <input type="hidden" id="cliente-id">
       <div class="form-group">
-        <label>Stock</label>
-        <input type="number" id="form-stock-sin" value="0">
+        <label>Nombre</label>
+        <input type="text" id="form-cliente-nombre" placeholder="Nombre completo">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="form-cliente-email" placeholder="email@ejemplo.com">
+      </div>
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="tel" id="form-cliente-telefono" placeholder="387...">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="cerrarModal('modal-cliente')">Cancelar</button>
+        <button class="btn-save" onclick="guardarCliente()">Guardar</button>
       </div>
     </div>
-    <div class="form-group">
-      <label>URL Imagen</label>
-      <input type="text" id="form-prod-imagen" placeholder="images/producto.jpg">
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="cerrarModal('modal-producto')">Cancelar</button>
-      <button class="btn-save"   onclick="guardarProducto()">Guardar</button>
+  </div>
+
+  <!-- MODAL PRODUCTO -->
+  <div id="modal-producto" class="modal-overlay">
+    <div class="modal-box">
+      <h3 id="modal-producto-title">Nuevo Producto</h3>
+      <input type="hidden" id="producto-id">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" id="form-prod-nombre" placeholder="Nombre del producto">
+      </div>
+      <div class="form-group">
+        <label>Precio Base ($)</label>
+        <input type="number" id="form-prod-precio" placeholder="80500">
+      </div>
+      <div class="form-group">
+        <label>¿Tiene talles?</label>
+        <select id="form-prod-talle" onchange="toggleTalles()">
+          <option value="true">Sí</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+      <div id="talles-inputs">
+        <div class="talles-grid">
+          <div class="form-group"><label>XS</label> <input type="number" id="form-stock-xs" value="0"></div>
+          <div class="form-group"><label>S</label> <input type="number" id="form-stock-s" value="0"></div>
+          <div class="form-group"><label>M</label> <input type="number" id="form-stock-m" value="0"></div>
+          <div class="form-group"><label>L</label> <input type="number" id="form-stock-l" value="0"></div>
+          <div class="form-group"><label>XL</label> <input type="number" id="form-stock-xl" value="0"></div>
+          <div class="form-group"><label>XXL</label><input type="number" id="form-stock-xxl" value="0"></div>
+        </div>
+      </div>
+      <div id="sin-talle-input" style="display:none">
+        <div class="form-group">
+          <label>Stock</label>
+          <input type="number" id="form-stock-sin" value="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>URL Imagen</label>
+        <input type="text" id="form-prod-imagen" placeholder="images/producto.jpg">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="cerrarModal('modal-producto')">Cancelar</button>
+        <button class="btn-save" onclick="guardarProducto()">Guardar</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- MODAL CÓDIGO -->
-<div id="modal-codigo" class="modal-overlay">
-  <div class="modal-box">
-    <h3>Nuevo Código de Socio</h3>
-    <div class="form-group">
-      <label>Código</label>
-      <input type="text" id="form-codigo" placeholder="Ej: Antoniano1916">
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="cerrarModal('modal-codigo')">Cancelar</button>
-      <button class="btn-save"   onclick="guardarCodigo()">Guardar</button>
+  <!-- MODAL CÓDIGO -->
+  <div id="modal-codigo" class="modal-overlay">
+    <div class="modal-box">
+      <h3>Nuevo Código de Socio</h3>
+      <div class="form-group">
+        <label>Código</label>
+        <input type="text" id="form-codigo" placeholder="Ej: Antoniano1916">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="cerrarModal('modal-codigo')">Cancelar</button>
+        <button class="btn-save" onclick="guardarCodigo()">Guardar</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- TOAST -->
-<div id="toast" class="toast"></div>
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
 
-<script src="script-admin.js"></script>
+  <script src="script-admin.js"></script>
 </body>
+
 </html>

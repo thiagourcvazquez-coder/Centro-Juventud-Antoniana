@@ -77,6 +77,12 @@ header a {
   height: 40px;
 }
 
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .nav a {
   margin: 0 15px;
   text-decoration: none;
@@ -99,6 +105,41 @@ header a {
 .btn-primary:hover {
   background-color: #1565c0;
   font-size: 20px;
+}
+
+/* ================= HAMBURGER MENU ================= */
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 1100;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 26px;
+  height: 3px;
+  background: white;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.nav-toggle.abierto span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.nav-toggle.abierto span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.abierto span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
 }
 
 /* ================= HERO ================= */
@@ -323,13 +364,11 @@ header a {
   color: white;
 }
 
-/* XS, S, M muestran badge de descuento en el botón */
 .talle.con-descuento.seleccionado {
   background-color: #28a745;
   border-color: #28a745;
 }
 
-/* Precio con descuento por talle */
 .precio-descuento-talle {
   font-size: 13px;
   color: #28a745;
@@ -811,6 +850,7 @@ header a {
   transition: opacity 0.3s, transform 0.3s;
   z-index: 3000;
   pointer-events: none;
+  max-width: calc(100vw - 60px);
 }
 
 .toast.visible {
@@ -858,6 +898,7 @@ header a {
   z-index: 4000;
   align-items: center;
   justify-content: center;
+  padding: 20px;
 }
 
 .modal-overlay.abierto {
@@ -1013,32 +1054,6 @@ header a {
   height: 20px;
 }
 
-/* ================= RESPONSIVE ================= */
-
-@media (max-width: 768px) {
-  .hero { background-size: 110%; }
-
-  .header {
-    padding: 15px 20px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .hero-overlay h1 { font-size: 32px; }
-
-  #historia h2 { font-size: 48px; }
-
-  .panel-carrito {
-    width: 100%;
-    right: -100%;
-  }
-
-  .horarios {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
 /* ================= INPUT CÓDIGO SOCIO ================= */
 
 .codigo-socio-wrapper {
@@ -1081,25 +1096,6 @@ header a {
   background: #333;
 }
 
-/*============================ MARCO HISTORIA========================*/
-
-/*.pagina-historia {
-  background-image:
-    url("images/marco-bufanda.jpg"),
-    url("images/marco-bufanda.jpg");
-  background-repeat: no-repeat, no-repeat;
-  background-position: left top, right top;
-  background-size: 80px 100%, 80px 100%;
-  background-attachment: fixed, fixed;
-}
-
-.pagina-historia .section,
-.pagina-historia .header,
-.pagina-historia .footer {
-  padding-left: calc(10% + 50px);
-  padding-right: calc(10% + 50px);
-}*/
-
 /*=========================== POLIDEPORTIVO ========================*/
 #polideportivo h1 {
   font-size: 80px;
@@ -1111,7 +1107,11 @@ header a {
   line-height: 1.6;
 }
 
-.polideportivo-contenido h2 {
+.polideportivo-contenido h2,
+.polideportivo-contenido h3,
+.polideportivo-contenido h4,
+.polideportivo-contenido h5,
+.polideportivo-contenido h6 {
   margin: 30px 0 20px 0;
   color: #1e88ff;
   font-size: 40px;
@@ -1122,79 +1122,12 @@ header a {
   margin-bottom: 15px;
 }
 
-.polideportivo-contenido h3 {
-  margin: 30px 0 20px 0;
-  color: #1e88ff;
-  font-size: 40px;
-  text-align: center;
-} 
-
-.polideportivo-contenido h4 {
-  margin: 30px 0 20px 0;
-  color: #1e88ff;
-  font-size: 40px;
-  text-align: center;
-} 
-
-.polideportivo-contenido h5 {
-  margin: 30px 0 20px 0;
-  color: #1e88ff;
-  font-size: 40px;
-  text-align: center;
-} 
-
-.polideportivo-contenido h6 {
-  margin: 30px 0 20px 0;
-  color: #1e88ff;
-  font-size: 40px;
-  text-align: center;
-} 
-
-/* ================= box polideportivo ================= */
-.polideportivo-box {
-  background-color: #112a4d;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.inferiores-box {
-  background-color: #112a4d;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  max-width: 100%;
-  margin: 0 auto;
-}
-.voley-box {
-  background-color: #112a4d;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.hockey-box {
-  background-color: #112a4d;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.futsal-box {
-  background-color: #112a4d;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
+/* ================= boxes polideportivo ================= */
+.polideportivo-box,
+.inferiores-box,
+.voley-box,
+.hockey-box,
+.futsal-box,
 .handball-box {
   background-color: #112a4d;
   padding: 30px;
@@ -1203,27 +1136,8 @@ header a {
   max-width: 100%;
   margin: 0 auto;
 }
+
 /* ================= Slider polideportivo ================= */
-.botones {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.slider-wrapper {
-  width: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.slider-container {
-  overflow: hidden;
-  flex: 1;
-  width: 100%;
-}
 
 .grid-futbol {
   display: flex;
@@ -1231,26 +1145,18 @@ header a {
   transition: transform 0.4s ease;
 }
 
-.slider-item {
-  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
+/* 2 imágenes por slide en desktop */
+.slider-item,
+.slider-inferiores,
+.slider-voley,
+.slider-hockey,
+.slider-futsal,
+.slider-handball {
+  flex: 0 0 calc(50% - 10px);
   max-width: calc(50% - 10px);
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-@media (max-width: 900px) {
-  .slider-item {
-    flex: 0 0 100%; /* 1 imagen */
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .slider-item {
-    flex: 0 0 100%; /* 1 imagen también */
-    max-width: 100%;
-  }
 }
 
 .slider-item img {
@@ -1260,152 +1166,210 @@ header a {
   border-radius: 10px;
 }
 
-/* ================= Slider inferiores ================= */
-.slider-inferiores {
-  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
-  max-width: calc(50% - 10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@media (max-width: 900px) {
-  .slider-inferiores {
-    flex: 0 0 100%; /* 1 imagen */
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .slider-inferiores {
-    flex: 0 0 100%; 
-    max-width: 100%;
-  }
-}
-
-.slider-inferiores img {
+.slider-inferiores img,
+.slider-voley img,
+.slider-hockey img,
+.slider-futsal img,
+.slider-handball img {
   width: 100%;
   height: 500px;
   object-fit: cover;
   border-radius: 10px;
 }
 
-/* ================= Slider Voley ================= */
-.slider-voley {
-  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
-  max-width: calc(50% - 10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* =======================
+   RESPONSIVE BREAKPOINTS
+   ======================= */
 
+/* ---- TABLET (≤ 900px) ---- */
 @media (max-width: 900px) {
-  .slider-voley {
-    flex: 0 0 100%; /* 1 imagen */
-    max-width: 100%;
+
+  /* Header */
+  .header {
+    padding: 15px 20px;
+    flex-wrap: nowrap;
   }
-}
 
-@media (max-width: 600px) {
-  .slider-voley {
-    flex: 0 0 100%; 
-    max-width: 100%;
+  /* Mostrar botón hamburguesa */
+  .nav-toggle {
+    display: flex;
   }
-}
 
-.slider-voley img {
-  width: 100%;
-  height: 700px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-/* ================= Slider Hockey ================= */
-.slider-hockey {
-  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
-  max-width: calc(50% - 10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@media (max-width: 900px) {
-  .slider-hockey {
-    flex: 0 0 100%; /* 1 imagen */
-    max-width: 100%;
+  /* Nav desplegable */
+  .nav {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #08152b;
+    padding: 10px 0 20px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    z-index: 999;
   }
-}
 
-@media (max-width: 600px) {
-  .slider-hockey {
-    flex: 0 0 100%; 
-    max-width: 100%;
+  .nav.abierto {
+    display: flex;
   }
-}
 
-.slider-hockey img {
-  width: 100%;
-  height: 700px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-/* ================= Slider Futsal ================= */
-.slider-futsal {
-  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
-  max-width: calc(50% - 10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@media (max-width: 900px) {
-  .slider-futsal {
-    flex: 0 0 100%; /* 1 imagen */
-    max-width: 100%;
+  .nav a {
+    width: 100%;
+    padding: 14px 24px;
+    margin: 0;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
-}
 
-@media (max-width: 600px) {
-  .slider-futsal {
-    flex: 0 0 100%; 
-    max-width: 100%;
+  .nav .btn-primary {
+    margin: 14px 24px 0 24px;
+    width: calc(100% - 48px);
+    text-align: center;
+    font-size: 15px;
   }
-}
 
-.slider-futsal img {
-  width: 100%;
-  height: 700px;
-  object-fit: cover;
-  border-radius: 10px;
-}
+  /* Hero */
+  .hero-overlay h1 { font-size: 36px; }
+  .hero-overlay p  { font-size: 16px; }
 
-/* ================= Slider Handball ================= */
-.slider-handball {
-  flex: 0 0 calc(50% - 10px); /* 👈 2 imágenes */
-  max-width: calc(50% - 10px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  /* Historia */
+  #historia h2 { font-size: 48px; }
 
-@media (max-width: 900px) {
+  /* Sección */
+  .section { padding: 20px 5%; }
+
+  /* Horarios */
+  .horarios {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Sliders polideportivo: 1 imagen por slide */
+  .slider-item,
+  .slider-inferiores,
+  .slider-voley,
+  .slider-hockey,
+  .slider-futsal,
   .slider-handball {
-    flex: 0 0 100%; /* 1 imagen */
+    flex: 0 0 100%;
     max-width: 100%;
+  }
+
+  /* Polideportivo títulos */
+  #polideportivo h1 { font-size: 48px; }
+  .polideportivo-contenido h2,
+  .polideportivo-contenido h3,
+  .polideportivo-contenido h4,
+  .polideportivo-contenido h5,
+  .polideportivo-contenido h6 { font-size: 28px; }
+
+  /* Imágenes polideportivo más chicas */
+  .slider-inferiores img,
+  .slider-voley img,
+  .slider-hockey img,
+  .slider-futsal img,
+  .slider-handball img {
+    height: 320px;
+  }
+
+  /* Card */
+  .card {
+    width: calc((100vw - 10% - 120px) / 2 - 20px);
   }
 }
 
+/* ---- MOBILE (≤ 600px) ---- */
 @media (max-width: 600px) {
+
+  /* Header */
+  .header { padding: 12px 16px; }
+  .logo span { font-size: 15px; }
+  .logo img  { height: 32px; }
+
+  /* Hero */
+  .hero { background-size: cover; }
+  .hero-overlay h1 { font-size: 28px; letter-spacing: 1px; }
+  .hero-overlay p  { font-size: 14px; }
+
+  /* Cartel */
+  .cartel-track span { font-size: 16px; padding: 0 20px; }
+
+  /* Sección */
+  .section { padding: 16px 4%; }
+  .section h2 { font-size: 28px; }
+
+  /* Historia */
+  #historia h2 { font-size: 36px; }
+
+  /* Polideportivo */
+  #polideportivo h1 { font-size: 36px; }
+  .polideportivo-contenido h2,
+  .polideportivo-contenido h3,
+  .polideportivo-contenido h4,
+  .polideportivo-contenido h5,
+  .polideportivo-contenido h6 { font-size: 22px; }
+
+  /* Boxes polideportivo: menos padding */
+  .polideportivo-box,
+  .inferiores-box,
+  .voley-box,
+  .hockey-box,
+  .futsal-box,
+  .handball-box {
+    padding: 14px;
+  }
+
+  /* Imágenes sliders aún más chicas */
+  .slider-item img { height: 220px; }
+  .slider-inferiores img,
+  .slider-voley img,
+  .slider-hockey img,
+  .slider-futsal img,
+  .slider-handball img { height: 240px; }
+
+  /* Sliders: 1 imagen */
+  .slider-item,
+  .slider-inferiores,
+  .slider-voley,
+  .slider-hockey,
+  .slider-futsal,
   .slider-handball {
-    flex: 0 0 100%; 
+    flex: 0 0 100%;
     max-width: 100%;
   }
-}
 
-.slider-handball  img {
-  width: 100%;
-  height: 700px;
-  object-fit: cover;
-  border-radius: 10px;
+  /* Flechas más chicas */
+  .flecha { font-size: 20px; padding: 8px 10px; }
+
+  /* Card */
+  .card {
+    width: calc(100vw - 8% - 100px);
+    min-width: 140px;
+    max-width: 100%;
+  }
+
+  /* Panel carrito full width */
+  .panel-carrito {
+    width: 100%;
+    right: -100%;
+  }
+
+  /* Botón WhatsApp y carrito más pequeños */
+  .btn-whatsapp { right: 15px; bottom: 90px; width: 46px; height: 46px; }
+  .carrito      { right: 15px; bottom: 20px; padding: 10px 14px; font-size: 16px; }
+
+  /* Toast */
+  .toast { right: 15px; bottom: 80px; font-size: 13px; }
+
+  /* Logos socios más chicos */
+  .logo-slide img { height: 80px; }
+
+  /* Fotos históricas */
+  .foto-slide img { height: 160px; }
+
+  /* Modal */
+  .modal-box { padding: 24px 18px; }
+  .modal-box h2 { font-size: 20px; }
 }

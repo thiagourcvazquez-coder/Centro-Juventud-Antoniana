@@ -1,3 +1,35 @@
+// ================= HAMBURGER MENU =================
+// Insertar dinámicamente el botón si no existe en el HTML
+document.addEventListener("DOMContentLoaded", () => {
+  const header = document.querySelector(".header");
+  const nav    = header && header.querySelector(".nav");
+
+  if (header && nav && !header.querySelector(".nav-toggle")) {
+    const btn = document.createElement("button");
+    btn.className   = "nav-toggle";
+    btn.setAttribute("aria-label", "Menú");
+    btn.innerHTML   = "<span></span><span></span><span></span>";
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("abierto");
+      nav.classList.toggle("abierto");
+    });
+    // Insertar antes del nav
+    header.insertBefore(btn, nav);
+  }
+
+  // Cerrar menú al hacer click en un link
+  if (nav) {
+    nav.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        nav.classList.remove("abierto");
+        const toggle = header.querySelector(".nav-toggle");
+        if (toggle) toggle.classList.remove("abierto");
+      });
+    });
+  }
+});
+
+
 // ================= LIGHTBOX =================
 
 function abrirLightbox(src) {
@@ -69,104 +101,95 @@ function mostrarToast(mensaje) {
   }, 2500);
 }
 
-// ================= SLIDER POLIDEPORTIVO =================
 
+// ============================================================
+// SLIDERS POLIDEPORTIVO
+// FIX: cada slider calcula su propio paso en base al ancho
+// real del primer elemento visible, para que funcione tanto
+// en desktop (2 imgs) como en mobile (1 img).
+// ============================================================
+
+function getPaso(sliderId, itemClass) {
+  const slider = document.getElementById(sliderId);
+  if (!slider) return 0;
+  const item = slider.querySelector("." + itemClass);
+  if (!item) return 0;
+  const gap = 20;
+  return item.offsetWidth + gap;
+}
+
+function getMaxPos(sliderId) {
+  const slider = document.getElementById(sliderId);
+  if (!slider) return 0;
+  const contenedor = slider.parentElement;
+  return Math.max(0, slider.scrollWidth - contenedor.clientWidth);
+}
+
+// ---- Fútbol ----
 let index = 0;
-
 function moverSlider(direccion) {
-  const slider = document.getElementById("slider");
-  const total = document.querySelectorAll(".slider-item").length;
-
-  index += direccion;
-
-  // límite (de a pares)
-  if (index < 0) index = Math.ceil(total / 2) - 1;
-  if (index >= Math.ceil(total / 2)) index = 0;
-
-  slider.style.transform = `translateX(-${index * 100}%)`;
+  const paso   = getPaso("slider", "slider-item");
+  const maxPos = getMaxPos("slider");
+  index = Math.max(0, Math.min(index + direccion * paso, maxPos));
+  document.getElementById("slider").style.transform = `translateX(-${index}px)`;
 }
 
-// Inferiores
-
+// ---- Inferiores ----
 let indexInferiores = 0;
-
 function moverSliderInferiores(direccion) {
-  const slider = document.getElementById("inferiores");
-  const total = document.querySelectorAll(".slider-inferiores").length;
-
-  indexInferiores += direccion;
-
-  // límite (de a pares)
-  if (indexInferiores < 0) indexInferiores = Math.ceil(total / 2) - 1;
-  if (indexInferiores >= Math.ceil(total / 2)) indexInferiores = 0;
-
-  slider.style.transform = `translateX(-${indexInferiores * 100}%)`;
+  const paso   = getPaso("inferiores", "slider-inferiores");
+  const maxPos = getMaxPos("inferiores");
+  indexInferiores = Math.max(0, Math.min(indexInferiores + direccion * paso, maxPos));
+  document.getElementById("inferiores").style.transform = `translateX(-${indexInferiores}px)`;
 }
 
-// Voley
-
+// ---- Voley ----
 let indexVoley = 0;
-
 function moverSliderVoley(direccion) {
-  const slider = document.getElementById("voley");
-  const total = document.querySelectorAll(".slider-voley").length;
-
-  indexVoley += direccion;
-
-  //límite (de a pares)
-  if (indexVoley < 0) indexVoley = Math.ceil(total / 2) - 1;
-  if (indexVoley >= Math.ceil(total / 2)) indexVoley = 0;
-
-  slider.style.transform = `translateX(-${indexVoley * 100}%)`;
+  const paso   = getPaso("voley", "slider-voley");
+  const maxPos = getMaxPos("voley");
+  indexVoley = Math.max(0, Math.min(indexVoley + direccion * paso, maxPos));
+  document.getElementById("voley").style.transform = `translateX(-${indexVoley}px)`;
 }
 
-// Hockey
-
+// ---- Hockey ----
 let indexHockey = 0;
-
 function moverSliderHockey(direccion) {
-  const slider = document.getElementById("hockey");
-  const total = document.querySelectorAll(".slider-hockey").length;
-
-  indexHockey += direccion;
-
-  //límite (de a pares)
-  if (indexHockey < 0) indexHockey = Math.ceil(total / 2) - 1;
-  if (indexHockey >= Math.ceil(total / 2)) indexHockey = 0;
-
-  slider.style.transform = `translateX(-${indexHockey * 100}%)`;
+  const paso   = getPaso("hockey", "slider-hockey");
+  const maxPos = getMaxPos("hockey");
+  indexHockey = Math.max(0, Math.min(indexHockey + direccion * paso, maxPos));
+  document.getElementById("hockey").style.transform = `translateX(-${indexHockey}px)`;
 }
 
-// Futsal
-
+// ---- Futsal ----
 let indexFutsal = 0;
-
 function moverSliderFutsal(direccion) {
-  const slider = document.getElementById("futsal");
-  const total = document.querySelectorAll(".slider-futsal").length;
-
-  indexFutsal += direccion;
-
-  //límite (de a pares)
-  if (indexFutsal < 0) indexFutsal = Math.ceil(total / 2) - 1;
-  if (indexFutsal >= Math.ceil(total / 2)) indexFutsal = 0;
-
-  slider.style.transform = `translateX(-${indexFutsal * 100}%)`;
+  const paso   = getPaso("futsal", "slider-futsal");
+  const maxPos = getMaxPos("futsal");
+  indexFutsal = Math.max(0, Math.min(indexFutsal + direccion * paso, maxPos));
+  document.getElementById("futsal").style.transform = `translateX(-${indexFutsal}px)`;
 }
 
-// Handball
-
+// ---- Handball ----
 let indexHandball = 0;
-
 function moverSliderHandball(direccion) {
-  const slider = document.getElementById("handball");
-  const total = document.querySelectorAll(".slider-handball").length;
-
-  indexHandball += direccion;
-
-  //límite (de a pares)
-  if (indexHandball < 0) indexHandball = Math.ceil(total / 2) - 1;
-  if (indexHandball >= Math.ceil(total / 2)) indexHandball = 0;
-
-  slider.style.transform = `translateX(-${indexHandball * 100}%)`;
+  const paso   = getPaso("handball", "slider-handball");
+  const maxPos = getMaxPos("handball");
+  indexHandball = Math.max(0, Math.min(indexHandball + direccion * paso, maxPos));
+  document.getElementById("handball").style.transform = `translateX(-${indexHandball}px)`;
 }
+
+// FIX: resetear todos los sliders al redimensionar
+window.addEventListener("resize", () => {
+  index           = 0;
+  indexInferiores = 0;
+  indexVoley      = 0;
+  indexHockey     = 0;
+  indexFutsal     = 0;
+  indexHandball   = 0;
+
+  ["slider","inferiores","voley","hockey","futsal","handball"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.transform = "translateX(0)";
+  });
+});
