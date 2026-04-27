@@ -4,9 +4,15 @@ const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
+// ================= EDGE FUNCTION URL =================
+// La URL de tu Edge Function de Supabase
+const EDGE_FUNCTION_URL = `${SUPABASE_URL}/functions/v1/crear-preferencia`;
+
+// ================= URL BASE DE TU SITIO =================
+// Cambiá esto por la URL real donde está hosteado tu sitio
+const SITE_URL = window.location.origin;
 
 // ================= CONSTANTES =================
-
 const TALLES_CON_DESCUENTO = ["XS", "S", "M"];
 const DESCUENTO_TALLE      = 20000;
 
@@ -46,17 +52,13 @@ function moverSlider(direccion) {
   const primeraCard = slider.querySelector(".card");
   const gap         = 20;
   const paso        = primeraCard.offsetWidth + gap;
-
-  // FIX: recalcular maxPos en cada llamada para que sea correcto
-  // aunque se haya redimensionado la ventana
-  const maxPos = slider.scrollWidth - contenedor.clientWidth;
+  const maxPos      = slider.scrollWidth - contenedor.clientWidth;
 
   posicion += direccion * paso;
   posicion = Math.max(0, Math.min(posicion, maxPos));
   slider.style.transform = `translateX(-${posicion}px)`;
 }
 
-// FIX: resetear posicion si se redimensiona la ventana para evitar desfase
 window.addEventListener("resize", () => {
   posicion = 0;
   const slider = document.getElementById("slider");
@@ -70,7 +72,6 @@ let carrito           = JSON.parse(localStorage.getItem("carrito")) || [];
 let descuentoAplicado = false;
 let codigoSocioUsado  = "";
 
-// FIX: guardar y restaurar estado del descuento entre recargas
 const descuentoGuardado = JSON.parse(localStorage.getItem("descuentoSocio"));
 if (descuentoGuardado) {
   descuentoAplicado = descuentoGuardado.aplicado || false;
@@ -268,23 +269,7 @@ function cerrarCarrito() {
 }
 
 
-// ================= PAGOS =================
-
-// FIX: flag para evitar doble submit
-let pagandoEnProceso = false;
-
-function procesarPago(metodo) {
-  if (carrito.length === 0) {
-    mostrarToast("Tu carrito está vacío");
-    return;
-  }
-  if (pagandoEnProceso) {
-    mostrarToast("Ya se está procesando tu pago...");
-    return;
-  }
-  mostrarToast(metodo === "tarjeta" ? "Redirigiendo al pago con tarjeta..." : "Redirigiendo a Mercado Pago...");
-  registrarVentaEnSupabase(metodo);
-}
+// ================= DESCUENTO SOCIO =================
 
 async function aplicarDescuentoSocio() {
   if (descuentoAplicado) {
@@ -292,7 +277,6 @@ async function aplicarDescuentoSocio() {
     return;
   }
 
-  // FIX: usar un input en el DOM en lugar de prompt()
   const inputCodigo = document.getElementById("input-codigo-socio");
   const codigo = inputCodigo ? inputCodigo.value.trim() : "";
 
@@ -328,18 +312,25 @@ async function aplicarDescuentoSocio() {
 }
 
 
-// ================= SUPABASE: REGISTRAR VENTA =================
+// ================= PAGOS — MERCADO PAGO CHECKOUT PRO =================
 
-async function obtenerProductosDB() {
-  const { data, error } = await supabaseClient
-    .from("productos")
-    .select("id, nombre");
-  if (error) { console.error("Error cargando productos:", error); return []; }
-  return data;
+let pagandoEnProceso = false;
+
+function procesarPago(metodo) {
+  if (carrito.length === 0) {
+    mostrarToast("Tu carrito está vacío");
+    return;
+  }
+  if (pagandoEnProceso) {
+    mostrarToast("Ya se está procesando tu pago...");
+    return;
+  }
+  // Único método: Mercado Pago Checkout Pro
+  iniciarCheckoutMP();
 }
 
-async function registrarVentaEnSupabase(metodo) {
-  // Datos del cliente
+async function iniciarCheckoutMP() {
+  // 1. Validar datos del cliente
   const nombreCliente = document.getElementById("cliente-nombre").value.trim();
   const emailCliente  = document.getElementById("cliente-email").value.trim();
   const telCliente    = document.getElementById("cliente-telefono").value.trim();
@@ -353,68 +344,161 @@ async function registrarVentaEnSupabase(metodo) {
   if (pagandoEnProceso) return;
   pagandoEnProceso = true;
 
-  const botonesPago = document.querySelectorAll(".pagos button");
-  botonesPago.forEach(b => b.disabled = true);
+  const btnPago = document.querySelector(".pagos button:last-child");
+  if (btnPago) { btnPago.disabled = true; btnPago.textContent = "Procesando..."; }
 
   try {
-    const productosDB = await obtenerProductosDB();
+    // 2. Calcular total con descuento si aplica
+    let subtotal = carrito.reduce((s, p) => s + p.precio * p.cantidad, 0);
+    let totalFinal = descuentoAplicado ? subtotal * 0.90 : subtotal;
 
-    const items = carrito.map(producto => {
-      const matchTalle  = producto.nombre.match(/ — ([A-Z]+)$/);
-      const talle       = matchTalle ? matchTalle[1] : "sin_talle";
-      const nombreBase  = matchTalle
-        ? producto.nombre.replace(/ — [A-Z]+$/, "").trim()
-        : producto.nombre.trim();
+    // 3. Construir items para MP
+    // MP requiere unit_price como número entero o decimal
+    // Si hay descuento socio, lo aplicamos como un item negativo o ajustamos precios
+    const itemsMP = carrito.map(producto => ({
+      id:         producto.nombre.replace(/\s/g, "_").substring(0, 50),
+      title:      producto.nombre,
+      quantity:   producto.cantidad,
+      unit_price: descuentoAplicado
+        ? Math.round(producto.precio * 0.90)   // aplica el 10% a cada producto
+        : producto.precio,
+      currency_id: "ARS",
+    }));
 
-      const productoDB  = productosDB.find(p =>
-        p.nombre.toLowerCase() === nombreBase.toLowerCase()
-      );
+    // Si hay descuento, agregar item informativo (no suma precio real, solo descripción)
+    // Nota: el precio ya está ajustado arriba en unit_price
 
-      const descTalle   = TALLES_CON_DESCUENTO.includes(talle) ? DESCUENTO_TALLE : 0;
-      const precioBase  = producto.precio + descTalle;
+    // 4. Generar external_reference único para rastrear la compra
+    const externalRef = `CJA-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
 
-      return {
-        producto_id:     productoDB ? productoDB.id : null,
-        talle:           talle,
-        cantidad:        producto.cantidad,
-        precio_base:     precioBase,
-        descuento_talle: descTalle
-      };
+    // 5. Guardar datos pendientes en localStorage para registrarlos después del pago
+    const ventaPendiente = {
+      external_reference: externalRef,
+      nombre_cliente:     nombreCliente,
+      email_cliente:      emailCliente,
+      tel_cliente:        telCliente,
+      dni_cliente:        dniCliente,
+      carrito:            [...carrito],
+      descuento_socio:    descuentoAplicado,
+      codigo_socio:       codigoSocioUsado || null,
+      total:              totalFinal,
+    };
+    localStorage.setItem("ventaPendiente", JSON.stringify(ventaPendiente));
+
+    // 6. Llamar a la Edge Function para crear la preferencia
+    mostrarToast("Conectando con Mercado Pago...");
+
+    const response = await fetch(EDGE_FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey":        SUPABASE_ANON,
+        "Authorization": `Bearer ${SUPABASE_ANON}`,
+      },
+      body: JSON.stringify({
+        items: itemsMP,
+        payer: {
+          name:  nombreCliente,
+          email: emailCliente,
+          phone: telCliente,
+          dni:   dniCliente,
+        },
+        back_urls: {
+          success: `${SITE_URL}/success.html`,
+          failure: `${SITE_URL}/failure.html`,
+          pending: `${SITE_URL}/pending.html`,
+        },
+        external_reference: externalRef,
+      }),
     });
 
-    const { data, error } = await supabaseClient.rpc("registrar_venta", {
-      p_cliente_id:     null,
-      p_nombre_cliente: nombreCliente,
-      p_email_cliente:  emailCliente,
-      p_tel_cliente:    telCliente,
-      p_dni_cliente:    dniCliente,
-      p_metodo_pago:    metodo,
-      p_desc_socio:     descuentoAplicado,
-      p_codigo_socio:   codigoSocioUsado || null,
-      p_items:          items
-    });
+    const data = await response.json();
 
-    if (error) {
-      console.error("Error al registrar venta:", error);
-      mostrarToast("⚠️ Hubo un error al registrar la compra");
+    if (!response.ok || !data.init_point) {
+      console.error("Error MP:", data);
+      mostrarToast("⚠️ Error al conectar con Mercado Pago");
       return;
     }
 
-    // Solo vaciamos el carrito si la venta fue exitosa
-    carrito           = [];
-    descuentoAplicado = false;
-    codigoSocioUsado  = "";
-    guardarCarrito();
-    guardarDescuento();
-    actualizarCarrito();
-    cerrarCarrito();
-    mostrarToast("✅ Compra registrada correctamente");
+    // 7. Redirigir al checkout de MP
+    // Usar sandbox_url para testing, init_point para producción
+    window.location.href = data.init_point;
 
   } catch (err) {
     console.error("Error inesperado:", err);
-    mostrarToast("⚠️ Error de conexión con la base de datos");
+    mostrarToast("⚠️ Error de conexión");
   } finally {
     pagandoEnProceso = false;
-    botonesPago.forEach(b => b.disabled = false);
+    const btnPago = document.querySelector(".pagos button:last-child");
+    if (btnPago) { btnPago.disabled = false; btnPago.textContent = " Pagar con Mercado Pago"; }
   }
+}
+
+
+// ================= REGISTRAR VENTA TRAS PAGO APROBADO =================
+// Esta función se llama desde success.html al volver de MP
+
+async function registrarVentaTrasMP(externalRef, mpPaymentId, mpStatus) {
+  const ventaPendiente = JSON.parse(localStorage.getItem("ventaPendiente"));
+  if (!ventaPendiente || ventaPendiente.external_reference !== externalRef) return;
+
+  const productosDB = await obtenerProductosDB();
+
+  const items = ventaPendiente.carrito.map(producto => {
+    const matchTalle  = producto.nombre.match(/ — ([A-Z]+)$/);
+    const talle       = matchTalle ? matchTalle[1] : "sin_talle";
+    const nombreBase  = matchTalle
+      ? producto.nombre.replace(/ — [A-Z]+$/, "").trim()
+      : producto.nombre.trim();
+
+    const productoDB  = productosDB.find(p =>
+      p.nombre.toLowerCase() === nombreBase.toLowerCase()
+    );
+
+    const descTalle  = TALLES_CON_DESCUENTO.includes(talle) ? DESCUENTO_TALLE : 0;
+    const precioBase = producto.precio + descTalle;
+
+    return {
+      producto_id:     productoDB ? productoDB.id : null,
+      talle:           talle,
+      cantidad:        producto.cantidad,
+      precio_base:     precioBase,
+      descuento_talle: descTalle,
+    };
+  });
+
+  const { error } = await supabaseClient.rpc("registrar_venta", {
+    p_cliente_id:     null,
+    p_nombre_cliente: ventaPendiente.nombre_cliente,
+    p_email_cliente:  ventaPendiente.email_cliente,
+    p_tel_cliente:    ventaPendiente.tel_cliente,
+    p_dni_cliente:    ventaPendiente.dni_cliente,
+    p_metodo_pago:    "mercadopago",
+    p_desc_socio:     ventaPendiente.descuento_socio,
+    p_codigo_socio:   ventaPendiente.codigo_socio,
+    p_items:          items,
+    // campos extra MP (necesitás agregar estas columnas en Supabase — ver instrucciones)
+    p_mp_payment_id:  mpPaymentId  ?? null,
+    p_mp_status:      mpStatus     ?? null,
+    p_external_ref:   externalRef  ?? null,
+  });
+
+  if (error) {
+    console.error("Error al registrar venta:", error);
+    return false;
+  }
+
+  // Limpiar localStorage
+  localStorage.removeItem("ventaPendiente");
+  localStorage.removeItem("carrito");
+  localStorage.removeItem("descuentoSocio");
+  return true;
+}
+
+async function obtenerProductosDB() {
+  const { data, error } = await supabaseClient
+    .from("productos")
+    .select("id, nombre");
+  if (error) { console.error("Error cargando productos:", error); return []; }
+  return data;
 }

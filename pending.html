@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago pendiente - CJA</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script-general.js"></script>
+  <style>
+    .resultado-pago {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .resultado-box {
+      background: #112a4d;
+      border-radius: 20px;
+      padding: 50px 40px;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      border: 1px solid rgba(245,158,11,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .resultado-icono { font-size: 72px; margin-bottom: 20px; }
+    .resultado-box h1 { font-size: 32px; font-weight: 800; color: #f59e0b; margin-bottom: 12px; }
+    .resultado-box p  { font-size: 16px; color: #aab8cc; line-height: 1.6; margin-bottom: 10px; }
+    .resultado-detalle {
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    .resultado-detalle p { font-size: 13px; color: #8a9ab0; margin-bottom: 4px; }
+    .resultado-detalle strong { color: #f0f4f8; }
+    .btn-volver {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 14px 32px;
+      background: #1e88ff;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      transition: background 0.2s;
+    }
+    .btn-volver:hover { background: #1565c0; }
+    @media (max-width: 600px) {
+      .resultado-box { padding: 32px 20px; }
+      .resultado-box h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="./index.html" style="text-decoration:none; color:white;">
+      <div class="logo">
+        <img src="images/escudo.png" alt="Escudo Juventud Antoniana">
+        <span>Centro Juventud Antoniana</span>
+      </div>
+    </a>
+    <nav class="nav">
+      <a href="./index.html">Inicio</a>
+      <a href="./historia.html">Historia</a>
+      <a href="./index.html#indumentaria">Indumentaria</a>
+      <a href="./index.html#socios">Socios</a>
+      <a href="./polideportivo.html">Polideportivo</a>
+      <button class="btn-primary" onclick="abrirModal()">Comunicate</button>
+    </nav>
+  </header>
+
+  <div class="resultado-pago">
+    <div class="resultado-box">
+      <div class="resultado-icono">⏳</div>
+      <h1>Pago pendiente</h1>
+      <p>Tu pago está siendo procesado. Puede demorar hasta 2 días hábiles en acreditarse.</p>
+      <p>Te avisaremos por email cuando se confirme. Guardá tu número de pago por si lo necesitás.</p>
+
+      <div class="resultado-detalle" id="detalle-pago">
+        <p>Cargando detalles...</p>
+      </div>
+
+      <a href="./index.html" class="btn-volver">← Volver al inicio</a>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox-overlay" onclick="cerrarLightbox()"><img id="lightbox-img" src="" alt=""></div>
+  <div id="toast" class="toast"></div>
+  <div id="modal-contacto" class="modal-overlay" onclick="cerrarModalSiOverlay(event)">
+    <div class="modal-box">
+      <h2>¡Contactate con nosotros!</h2>
+      <form id="form-contacto" action="https://formsubmit.co/thiagovazquezalm@gmail.com" method="POST">
+        <label>Nombre</label><input type="text" name="nombre" placeholder="Tu nombre" required>
+        <label>Email</label><input type="email" name="email" placeholder="Tu correo" required>
+        <label>Mensaje</label><textarea name="mensaje" placeholder="Tu mensaje..." required></textarea>
+        <input type="hidden" name="_captcha" value="false">
+        <button type="submit" class="btn-enviar">Enviar</button>
+      </form>
+      <button class="btn-cerrar-modal" onclick="cerrarModal()">✕ Cerrar</button>
+    </div>
+  </div>
+  <footer class="footer">
+    <p class="footer-copy">© 2026 Centro Juventud Antoniana</p>
+    <p>Desde 1916 representando a estos colores</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const params      = new URLSearchParams(window.location.search);
+      const paymentId   = params.get("payment_id");
+      const externalRef = params.get("external_reference");
+
+      document.getElementById("detalle-pago").innerHTML = `
+        <p>Estado: <strong style="color:#f59e0b">Pendiente ⏳</strong></p>
+        ${paymentId   ? `<p>N° de pago: <strong>${paymentId}</strong></p>`   : ""}
+        ${externalRef ? `<p>Referencia: <strong>${externalRef}</strong></p>` : ""}
+      `;
+    });
+  </script>
+</body>
+</html>
