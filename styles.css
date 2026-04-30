@@ -539,11 +539,14 @@ header a {
 }
 
 /* ================= DATOS CLIENTE ================= */
+
+/* ================= DATOS CLIENTE ================= */
 .datos-cliente {
-  padding: 15px 0 5px 0;
+  padding: 15px 25px 5px 25px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  background: white;
 }
 
 .datos-cliente h3 {
@@ -565,6 +568,7 @@ header a {
   background: white;
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
 
 .datos-cliente input:focus {
@@ -577,7 +581,7 @@ header a {
   position: fixed;
   right: -480px;
   top: 0;
-  width: 460px;
+  width: 500px;
   height: 100%;
   background: #f5f5f5;
   color: #111;
