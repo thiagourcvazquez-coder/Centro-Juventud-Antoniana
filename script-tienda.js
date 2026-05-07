@@ -762,9 +762,7 @@ async function iniciarCheckoutMP() {
       return;
     }
 
-    window.location.href =
-      data.sandbox_url ??
-      data.init_point;
+    window.location.href=data.init_point;
 
   } catch (err) {
 
