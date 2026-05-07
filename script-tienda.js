@@ -5,11 +5,9 @@ const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 // ================= EDGE FUNCTION URL =================
-// La URL de tu Edge Function de Supabase
 const EDGE_FUNCTION_URL = `${SUPABASE_URL}/functions/v1/crear-preferencia`;
 
 // ================= URL BASE DE TU SITIO =================
-// Cambiá esto por la URL real donde está hosteado tu sitio
 const SITE_URL = window.location.origin;
 
 // ================= CONSTANTES =================
@@ -325,12 +323,10 @@ function procesarPago(metodo) {
     mostrarToast("Ya se está procesando tu pago...");
     return;
   }
-  // Único método: Mercado Pago Checkout Pro
   iniciarCheckoutMP();
 }
 
 async function iniciarCheckoutMP() {
-  // 1. Validar datos del cliente
   const nombreCliente = document.getElementById("cliente-nombre").value.trim();
   const emailCliente  = document.getElementById("cliente-email").value.trim();
   const telCliente    = document.getElementById("cliente-telefono").value.trim();
@@ -348,30 +344,21 @@ async function iniciarCheckoutMP() {
   if (btnPago) { btnPago.disabled = true; btnPago.textContent = "Procesando..."; }
 
   try {
-    // 2. Calcular total con descuento si aplica
-    let subtotal = carrito.reduce((s, p) => s + p.precio * p.cantidad, 0);
+    let subtotal   = carrito.reduce((s, p) => s + p.precio * p.cantidad, 0);
     let totalFinal = descuentoAplicado ? subtotal * 0.90 : subtotal;
 
-    // 3. Construir items para MP
-    // MP requiere unit_price como número entero o decimal
-    // Si hay descuento socio, lo aplicamos como un item negativo o ajustamos precios
     const itemsMP = carrito.map(producto => ({
-      id:         producto.nombre.replace(/\s/g, "_").substring(0, 50),
-      title:      producto.nombre,
-      quantity:   producto.cantidad,
-      unit_price: descuentoAplicado
-        ? Math.round(producto.precio * 0.90)   // aplica el 10% a cada producto
+      id:          producto.nombre.replace(/\s/g, "_").substring(0, 50),
+      title:       producto.nombre,
+      quantity:    producto.cantidad,
+      unit_price:  descuentoAplicado
+        ? Math.round(producto.precio * 0.90)
         : producto.precio,
       currency_id: "ARS",
     }));
 
-    // Si hay descuento, agregar item informativo (no suma precio real, solo descripción)
-    // Nota: el precio ya está ajustado arriba en unit_price
-
-    // 4. Generar external_reference único para rastrear la compra
     const externalRef = `CJA-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
 
-    // 5. Guardar datos pendientes en localStorage para registrarlos después del pago
     const ventaPendiente = {
       external_reference: externalRef,
       nombre_cliente:     nombreCliente,
@@ -385,7 +372,6 @@ async function iniciarCheckoutMP() {
     };
     localStorage.setItem("ventaPendiente", JSON.stringify(ventaPendiente));
 
-    // 6. Llamar a la Edge Function para crear la preferencia
     mostrarToast("Conectando con Mercado Pago...");
 
     const response = await fetch(EDGE_FUNCTION_URL, {
@@ -403,10 +389,11 @@ async function iniciarCheckoutMP() {
           phone: telCliente,
           dni:   dniCliente,
         },
+        // ✅ CAMBIO 1: back_urls con URLs públicas válidas (no localhost)
         back_urls: {
-          success: `${SITE_URL}/success.html`,
-          failure: `${SITE_URL}/failure.html`,
-          pending: `${SITE_URL}/pending.html`,
+          success: "https://www.google.com",
+          failure: "https://www.google.com",
+          pending: "https://www.google.com",
         },
         external_reference: externalRef,
       }),
@@ -420,9 +407,8 @@ async function iniciarCheckoutMP() {
       return;
     }
 
-    // 7. Redirigir al checkout de MP
-    // Usar sandbox_url para testing, init_point para producción
-    window.location.href = data.init_point;
+    // ✅ CAMBIO 2: usar sandbox_url para testing con token TEST-
+    window.location.href = data.sandbox_url ?? data.init_point;
 
   } catch (err) {
     console.error("Error inesperado:", err);
@@ -436,7 +422,6 @@ async function iniciarCheckoutMP() {
 
 
 // ================= REGISTRAR VENTA TRAS PAGO APROBADO =================
-// Esta función se llama desde success.html al volver de MP
 
 async function registrarVentaTrasMP(externalRef, mpPaymentId, mpStatus) {
   const ventaPendiente = JSON.parse(localStorage.getItem("ventaPendiente"));
@@ -477,7 +462,6 @@ async function registrarVentaTrasMP(externalRef, mpPaymentId, mpStatus) {
     p_desc_socio:     ventaPendiente.descuento_socio,
     p_codigo_socio:   ventaPendiente.codigo_socio,
     p_items:          items,
-    // campos extra MP (necesitás agregar estas columnas en Supabase — ver instrucciones)
     p_mp_payment_id:  mpPaymentId  ?? null,
     p_mp_status:      mpStatus     ?? null,
     p_external_ref:   externalRef  ?? null,
@@ -488,7 +472,6 @@ async function registrarVentaTrasMP(externalRef, mpPaymentId, mpStatus) {
     return false;
   }
 
-  // Limpiar localStorage
   localStorage.removeItem("ventaPendiente");
   localStorage.removeItem("carrito");
   localStorage.removeItem("descuentoSocio");
