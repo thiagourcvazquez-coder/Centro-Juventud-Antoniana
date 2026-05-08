@@ -5,12 +5,20 @@ const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 // ================= EDGE FUNCTION URL =================
-// La URL de tu Edge Function de Supabase
 const EDGE_FUNCTION_URL = `${SUPABASE_URL}/functions/v1/crear-preferencia`;
 
 // ================= URL BASE DE TU SITIO =================
-// Cambiá esto por la URL real donde está hosteado tu sitio
-const SITE_URL = window.location.origin;
+// CORRECCIÓN: MercadoPago NO acepta localhost como back_url.
+// En desarrollo, poné tu dominio de producción real aquí.
+// En producción, window.location.origin funciona perfectamente.
+const isLocalhost =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
+// ⚠️ Reemplazá esto con tu dominio real de producción:
+const PRODUCTION_URL = "https://thiagourcvazquez-coder.github.io/Centro-Juventud-Antoniana";
+
+const SITE_URL = isLocalhost ? PRODUCTION_URL : window.location.origin;
 
 // ================= CONSTANTES =================
 const TALLES_CON_DESCUENTO = ["XS", "S", "M"];
@@ -325,7 +333,6 @@ function procesarPago(metodo) {
     mostrarToast("Ya se está procesando tu pago...");
     return;
   }
-  // Único método: Mercado Pago Checkout Pro
   iniciarCheckoutMP();
 }
 
@@ -341,6 +348,15 @@ async function iniciarCheckoutMP() {
     return;
   }
 
+  // CORRECCIÓN: Advertir si se está en localhost (las URLs no serán aceptadas por MP)
+  if (isLocalhost) {
+    console.warn(
+      "⚠️ Estás en localhost. Las back_urls apuntarán a:",
+      PRODUCTION_URL,
+      "— Asegurate de haber configurado PRODUCTION_URL correctamente en script-tienda.js"
+    );
+  }
+
   if (pagandoEnProceso) return;
   pagandoEnProceso = true;
 
@@ -349,29 +365,24 @@ async function iniciarCheckoutMP() {
 
   try {
     // 2. Calcular total con descuento si aplica
-    let subtotal = carrito.reduce((s, p) => s + p.precio * p.cantidad, 0);
-    let totalFinal = descuentoAplicado ? subtotal * 0.90 : subtotal;
+    const subtotal   = carrito.reduce((s, p) => s + p.precio * p.cantidad, 0);
+    const totalFinal = descuentoAplicado ? subtotal * 0.90 : subtotal;
 
     // 3. Construir items para MP
-    // MP requiere unit_price como número entero o decimal
-    // Si hay descuento socio, lo aplicamos como un item negativo o ajustamos precios
     const itemsMP = carrito.map(producto => ({
-      id:         producto.nombre.replace(/\s/g, "_").substring(0, 50),
-      title:      producto.nombre,
-      quantity:   producto.cantidad,
-      unit_price: descuentoAplicado
-        ? Math.round(producto.precio * 0.90)   // aplica el 10% a cada producto
+      id:          producto.nombre.replace(/\s/g, "_").substring(0, 50),
+      title:       producto.nombre,
+      quantity:    producto.cantidad,
+      unit_price:  descuentoAplicado
+        ? Math.round(producto.precio * 0.90)
         : producto.precio,
       currency_id: "ARS",
     }));
 
-    // Si hay descuento, agregar item informativo (no suma precio real, solo descripción)
-    // Nota: el precio ya está ajustado arriba en unit_price
-
-    // 4. Generar external_reference único para rastrear la compra
+    // 4. Generar external_reference único
     const externalRef = `CJA-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
 
-    // 5. Guardar datos pendientes en localStorage para registrarlos después del pago
+    // 5. Guardar venta pendiente en localStorage
     const ventaPendiente = {
       external_reference: externalRef,
       nombre_cliente:     nombreCliente,
@@ -385,9 +396,10 @@ async function iniciarCheckoutMP() {
     };
     localStorage.setItem("ventaPendiente", JSON.stringify(ventaPendiente));
 
-    // 6. Llamar a la Edge Function para crear la preferencia
+    // 6. Llamar a la Edge Function
     mostrarToast("Conectando con Mercado Pago...");
 
+    // CORRECCIÓN: back_urls usan SITE_URL que ya resuelve localhost vs producción
     const response = await fetch(EDGE_FUNCTION_URL, {
       method: "POST",
       headers: {
@@ -421,7 +433,6 @@ async function iniciarCheckoutMP() {
     }
 
     // 7. Redirigir al checkout de MP
-    // Usar sandbox_url para testing, init_point para producción
     window.location.href = data.init_point;
 
   } catch (err) {
@@ -430,13 +441,12 @@ async function iniciarCheckoutMP() {
   } finally {
     pagandoEnProceso = false;
     const btnPago = document.querySelector(".pagos button:last-child");
-    if (btnPago) { btnPago.disabled = false; btnPago.textContent = " Pagar con Mercado Pago"; }
+    if (btnPago) { btnPago.disabled = false; btnPago.textContent = "Pagar con Mercado Pago"; }
   }
 }
 
 
 // ================= REGISTRAR VENTA TRAS PAGO APROBADO =================
-// Esta función se llama desde success.html al volver de MP
 
 async function registrarVentaTrasMP(externalRef, mpPaymentId, mpStatus) {
   const ventaPendiente = JSON.parse(localStorage.getItem("ventaPendiente"));
@@ -477,7 +487,6 @@ async function registrarVentaTrasMP(externalRef, mpPaymentId, mpStatus) {
     p_desc_socio:     ventaPendiente.descuento_socio,
     p_codigo_socio:   ventaPendiente.codigo_socio,
     p_items:          items,
-    // campos extra MP (necesitás agregar estas columnas en Supabase — ver instrucciones)
     p_mp_payment_id:  mpPaymentId  ?? null,
     p_mp_status:      mpStatus     ?? null,
     p_external_ref:   externalRef  ?? null,
@@ -488,7 +497,6 @@ async function registrarVentaTrasMP(externalRef, mpPaymentId, mpStatus) {
     return false;
   }
 
-  // Limpiar localStorage
   localStorage.removeItem("ventaPendiente");
   localStorage.removeItem("carrito");
   localStorage.removeItem("descuentoSocio");
