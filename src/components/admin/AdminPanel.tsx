@@ -36,7 +36,10 @@ export default function AdminPanel() {
       <aside className="sidebar">
         <div className="sidebar-logo">
           <img src="/images/escudo.png" alt="CJA" />
-          <span>CJA Admin</span>
+          <span>
+            Juventud Antoniana
+            <small>Panel de gestión</small>
+          </span>
         </div>
         <nav className="sidebar-nav">
           {(
