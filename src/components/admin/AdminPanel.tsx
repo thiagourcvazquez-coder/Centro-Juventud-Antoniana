@@ -427,6 +427,7 @@ const FORM_PROD_INICIAL = {
   precio: '',
   tieneTalle: 'true',
   imagen: '',
+  modelo3d: '',
   xs: '0',
   s: '0',
   m: '0',
@@ -471,6 +472,7 @@ function StockTab({ mostrarToast }: { mostrarToast: (m: string) => void }) {
       precio: String(p.precio_base),
       tieneTalle: String(p.tiene_talle),
       imagen: p.imagen_url ?? '',
+      modelo3d: p.modelo_3d ?? '',
       xs: String(p.stock_xs ?? 0),
       s: String(p.stock_s ?? 0),
       m: String(p.stock_m ?? 0),
@@ -495,6 +497,7 @@ function StockTab({ mostrarToast }: { mostrarToast: (m: string) => void }) {
       precio_base: precio,
       tiene_talle: tieneTalle,
       imagen_url: form.imagen.trim() || null,
+      modelo_3d: form.modelo3d.trim() || null,
       stock_xs: tieneTalle ? Number(form.xs) : 0,
       stock_s: tieneTalle ? Number(form.s) : 0,
       stock_m: tieneTalle ? Number(form.m) : 0,
@@ -669,6 +672,15 @@ function StockTab({ mostrarToast }: { mostrarToast: (m: string) => void }) {
               placeholder="images/producto.jpg"
               value={form.imagen}
               onChange={e => setForm({ ...form, imagen: e.target.value })}
+            />
+          </div>
+          <div className="form-group">
+            <label>Modelo 3D (.glb)</label>
+            <input
+              type="text"
+              placeholder="/modelos/camiseta.glb"
+              value={form.modelo3d}
+              onChange={e => setForm({ ...form, modelo3d: e.target.value })}
             />
           </div>
           <div className="modal-actions">

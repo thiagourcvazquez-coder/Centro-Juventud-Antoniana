@@ -568,3 +568,28 @@ body::before {
     radial-gradient(900px 450px at -10% 35%, rgba(129, 140, 248, 0.09), transparent 60%),
     radial-gradient(700px 500px at 50% 110%, rgba(251, 191, 36, 0.05), transparent 60%);
 }
+
+/* ---------- Visor 3D en cards de producto ---------- */
+.card-canvas3d {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px 4px 0 0;
+  background: radial-gradient(320px 260px at 50% 40%, rgba(56, 189, 248, 0.12), transparent 70%), var(--azul-800, #0e1d3f);
+  overflow: hidden;
+}
+.card-canvas3d canvas { touch-action: pan-y; cursor: grab; }
+.card-canvas3d canvas:active { cursor: grabbing; }
+.card-canvas3d-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gris);
+  pointer-events: none;
+  white-space: nowrap;
+}

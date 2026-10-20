@@ -13,6 +13,7 @@ import {
 } from '@/lib/constants'
 import { useCart } from '@/context/CartContext'
 import { useToast } from '@/context/ToastContext'
+import Modelo3D from './Modelo3D'
 
 function urlImagen(producto: Producto) {
   const imagenUrl = producto.imagen_url
@@ -61,7 +62,11 @@ export default function ProductCard({ producto }: { producto: Producto }) {
 
   return (
     <div className="card">
-      <img src={imagen} alt={producto.nombre} />
+      {producto.modelo_3d ? (
+        <Modelo3D src={producto.modelo_3d} />
+      ) : (
+        <img src={imagen} alt={producto.nombre} />
+      )}
       <h3>{producto.nombre}</h3>
       <p className="precio-base" data-precio={producto.precio_base}>
         ${fmtPrecio(producto.precio_base)}

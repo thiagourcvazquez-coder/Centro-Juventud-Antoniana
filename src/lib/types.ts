@@ -6,6 +6,7 @@ export type Producto = {
   precio_base: number
   tiene_talle: boolean
   imagen_url: string | null
+  modelo_3d: string | null
   stock_xs: number | null
   stock_s: number | null
   stock_m: number | null
