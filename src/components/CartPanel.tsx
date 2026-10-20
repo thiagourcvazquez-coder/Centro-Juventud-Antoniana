@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useCart, precioItem } from '@/context/CartContext'
 import { useToast } from '@/context/ToastContext'
-import { createClient } from '@/lib/supabase/client'
 import {
   DESCUENTO_TALLE,
   TALLES_CON_DESCUENTO,
@@ -48,16 +47,17 @@ export default function CartPanel() {
       return
     }
     setVerificandoCodigo(true)
-    const sb = createClient()
-    const { data, error } = await sb
-      .from('codigos_socio')
-      .select('codigo')
-      .eq('codigo', codigo)
-      .eq('activo', true)
-      .maybeSingle()
+    const valido = await fetch('/api/codigo-socio', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ codigo }),
+    })
+      .then(r => r.json())
+      .then(d => d.valido === true)
+      .catch(() => false)
     setVerificandoCodigo(false)
 
-    if (error || !data) {
+    if (!valido) {
       mostrarToast('❌ Código inválido o no existe')
       return
     }
