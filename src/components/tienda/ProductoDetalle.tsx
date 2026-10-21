@@ -9,26 +9,17 @@ import {
   TALLES_CON_DESCUENTO,
   DESCUENTO_TALLE,
   STOCK_COL,
-  IMAGEN_POR_NOMBRE,
   fmtPrecio,
 } from '@/lib/constants'
+import { datosProducto } from '@/lib/catalogo'
 import { useCart } from '@/context/CartContext'
 import { useToast } from '@/context/ToastContext'
 import Modelo3D from './Modelo3D'
 
-function urlImagen(producto: Producto) {
-  const imagenUrl = producto.imagen_url
-  if (imagenUrl) {
-    if (imagenUrl.startsWith('http') || imagenUrl.startsWith('/')) return imagenUrl
-    return `/${imagenUrl}`
-  }
-  return IMAGEN_POR_NOMBRE[producto.nombre.toLowerCase()] ?? '/images/escudo.png'
-}
-
 export default function ProductoDetalle({ producto }: { producto: Producto }) {
-  const tiene3d = Boolean(producto.modelo_3d)
-  const tieneFoto = Boolean(producto.imagen_url)
-  const [vista, setVista] = useState<'3d' | 'foto'>(tiene3d ? '3d' : 'foto')
+  const { imagen, fotos, modelo } = datosProducto(producto)
+  const galeria = fotos.length ? fotos : [imagen]
+  const [vista, setVista] = useState<'3d' | number>(modelo ? '3d' : 0)
   const [talleSel, setTalleSel] = useState<Talle | null>(null)
   const { agregar } = useCart()
   const { mostrarToast } = useToast()
@@ -36,7 +27,6 @@ export default function ProductoDetalle({ producto }: { producto: Producto }) {
   const stockTalle = (t: Talle) =>
     Number(producto[STOCK_COL[t] as keyof Producto] ?? 0)
 
-  const imagen = urlImagen(producto)
   const tallesDisponibles = TALLES.filter(t => stockTalle(t) > 0)
   const sinStock = producto.tiene_talle
     ? tallesDisponibles.length === 0
@@ -74,25 +64,36 @@ export default function ProductoDetalle({ producto }: { producto: Producto }) {
 
       <div className="pd-grid">
         <div className="pd-media">
-          {vista === '3d' && tiene3d ? (
-            <Modelo3D src={producto.modelo_3d!} zoom />
+          {vista === '3d' && modelo ? (
+            <Modelo3D src={modelo} zoom />
           ) : (
-            <img className="pd-foto" src={imagen} alt={producto.nombre} />
+            <img
+              className="pd-foto"
+              src={galeria[typeof vista === 'number' ? vista : 0]}
+              alt={producto.nombre}
+            />
           )}
-          {tiene3d && tieneFoto && (
-            <div className="pd-tabs">
-              <button
-                className={vista === '3d' ? 'activo' : ''}
-                onClick={() => setVista('3d')}
-              >
-                Vista 3D
-              </button>
-              <button
-                className={vista === 'foto' ? 'activo' : ''}
-                onClick={() => setVista('foto')}
-              >
-                Foto
-              </button>
+          {(modelo || galeria.length > 1) && (
+            <div className="pd-thumbs">
+              {modelo && (
+                <button
+                  className={vista === '3d' ? 'activo' : ''}
+                  onClick={() => setVista('3d')}
+                  aria-label="Ver en 3D"
+                >
+                  <span>3D</span>
+                </button>
+              )}
+              {galeria.map((src, i) => (
+                <button
+                  key={src}
+                  className={vista === i ? 'activo' : ''}
+                  onClick={() => setVista(i)}
+                  aria-label={`Foto ${i + 1}`}
+                >
+                  <img src={src} alt="" loading="lazy" />
+                </button>
+              ))}
             </div>
           )}
         </div>

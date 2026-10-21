@@ -8,7 +8,7 @@ const LINKS = [
   { href: '/', label: 'Inicio', img: '/images/bienvenida/pistoia-1.jpg' },
   { href: '/historia', label: 'Historia', img: '/images/plantel71.jpg' },
   { href: '/partidos', label: 'Partidos', img: '/images/ascenso.jpg' },
-  { href: '/tienda', label: 'Tienda', img: '/images/camiseta-titular.jpg' },
+  { href: '/tienda', label: 'Tienda', img: '/images/tienda/camiseta-oficial-juventud-antoniana-t-2026/4.webp' },
   { href: '/polideportivo', label: 'Polideportivo', img: '/images/futsal2.jpg' },
   { href: '/#socios', label: 'Socios', img: '/images/bienvenida/banderas-pistoia.jpg' },
 ]

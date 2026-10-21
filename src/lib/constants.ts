@@ -19,19 +19,3 @@ export const STOCK_COL: Record<Talle, string> = {
   XL: 'stock_xl',
   XXL: 'stock_xxl',
 }
-
-// Imagen local por defecto según el nombre del producto
-// (la columna imagen_url de `productos` está vacía hoy).
-export const IMAGEN_POR_NOMBRE: Record<string, string> = {
-  'camiseta oficial 2025': '/images/camiseta-titular.jpg',
-  'camiseta oficial': '/images/camiseta-titular.jpg',
-  'camiseta 110 años': '/images/camiseta-blanca.jpg',
-  'musculosa azul': '/images/musculosa_azul.jpg',
-  'campera de abrigo': '/images/campera.jpg',
-  'bermuda cja': '/images/bermuda.png',
-  'chomba cja': '/images/chombacja.webp',
-  'rompevientos cja': '/images/rompevientoscja.webp',
-  'pantalon largo cja': '/images/pantalon_largo.png',
-  'gorra cja': '/images/gorra_cja.jpg',
-  'bolso cja': '/images/bolso.jpg',
-}

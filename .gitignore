@@ -10,3 +10,6 @@ supabase/.temp/
 
 .vercel
 .env*
+
+# Temporales de Blender
+scripts/_tmp/

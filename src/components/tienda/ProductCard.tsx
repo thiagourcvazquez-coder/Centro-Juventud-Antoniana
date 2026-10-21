@@ -9,20 +9,11 @@ import {
   TALLES_CON_DESCUENTO,
   DESCUENTO_TALLE,
   STOCK_COL,
-  IMAGEN_POR_NOMBRE,
   fmtPrecio,
 } from '@/lib/constants'
+import { datosProducto } from '@/lib/catalogo'
 import { useCart } from '@/context/CartContext'
 import { useToast } from '@/context/ToastContext'
-
-function urlImagen(producto: Producto) {
-  const imagenUrl = producto.imagen_url
-  if (imagenUrl) {
-    if (imagenUrl.startsWith('http') || imagenUrl.startsWith('/')) return imagenUrl
-    return `/${imagenUrl}`
-  }
-  return IMAGEN_POR_NOMBRE[producto.nombre.toLowerCase()] ?? '/images/escudo.png'
-}
 
 export default function ProductCard({ producto }: { producto: Producto }) {
   const [talleSel, setTalleSel] = useState<Talle | null>(null)
@@ -32,7 +23,7 @@ export default function ProductCard({ producto }: { producto: Producto }) {
   const stockTalle = (t: Talle) =>
     Number(producto[STOCK_COL[t] as keyof Producto] ?? 0)
 
-  const imagen = urlImagen(producto)
+  const { imagen, modelo } = datosProducto(producto)
   const tallesDisponibles = TALLES.filter(t => stockTalle(t) > 0)
   const sinStock = producto.tiene_talle
     ? tallesDisponibles.length === 0
@@ -65,7 +56,7 @@ export default function ProductCard({ producto }: { producto: Producto }) {
       <Link href={`/tienda/${producto.id}`} className="card-link">
         <div className="card-media">
           <img src={imagen} alt={producto.nombre} />
-          {producto.modelo_3d && <span className="card-badge3d">3D</span>}
+          {modelo && <span className="card-badge3d">3D</span>}
         </div>
         <h3>{producto.nombre}</h3>
         <p className="precio-base" data-precio={producto.precio_base}>

@@ -578,7 +578,8 @@ body::before {
   background: radial-gradient(320px 260px at 50% 40%, rgba(56, 189, 248, 0.12), transparent 70%), var(--azul-800, #0e1d3f);
   overflow: hidden;
 }
-.card-canvas3d canvas { touch-action: pan-y; cursor: grab; }
+.card-canvas3d { max-width: 100%; }
+.card-canvas3d canvas { touch-action: pan-y !important; cursor: grab; display: block; }
 .card-canvas3d canvas:active { cursor: grabbing; }
 .card-canvas3d-tag {
   position: absolute;
@@ -618,36 +619,42 @@ body::before {
   gap: 60px;
   align-items: start;
 }
-.pd-media { position: relative; }
+.pd-media { position: relative; min-width: 0; }
+.pd-info { min-width: 0; }
 .pd-media .card-canvas3d {
   aspect-ratio: 1 / 1;
   border: 1px solid rgba(148, 190, 233, 0.15);
 }
 .pd-foto {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
+  object-position: top;
   display: block;
 }
-.pd-tabs {
+.pd-thumbs {
   display: flex;
-  gap: 0;
-  margin-top: 16px;
-  border: 1px solid rgba(148, 190, 233, 0.25);
-  width: fit-content;
+  gap: 10px;
+  margin-top: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
-.pd-tabs button {
-  background: none;
-  border: none;
-  color: var(--gris);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  padding: 10px 20px;
+.pd-thumbs button {
+  flex: 0 0 72px;
+  height: 92px;
+  padding: 0;
+  background: rgba(148, 190, 233, 0.06);
+  border: 1px solid rgba(148, 190, 233, 0.2);
   cursor: pointer;
+  overflow: hidden;
+  color: var(--gris);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
 }
-.pd-tabs button.activo { background: var(--celeste); color: var(--azul-950, #020617); }
+.pd-thumbs button img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pd-thumbs button.activo { border-color: var(--celeste); box-shadow: 0 0 0 1px var(--celeste); }
+.pd-thumbs button span { display: grid; place-items: center; height: 100%; }
 .pd-info { padding-top: 12px; }
 .pd-nombre {
   font-family: var(--bebas);
@@ -693,6 +700,22 @@ body::before {
 }
 
 @media (max-width: 860px) {
-  .pd-grid { grid-template-columns: 1fr; gap: 32px; }
-  .pd { padding-top: 100px; }
+  .pd-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .pd { padding: 96px 16px 64px; }
+  .pd-miga { margin-bottom: 20px; flex-wrap: wrap; }
+  .pd-thumbs button { flex-basis: 60px; height: 78px; }
+  .pd-media .card-canvas3d { aspect-ratio: 1 / 1.05; }
 }
+
+.card-canvas3d-error,
+.card-canvas3d-loading {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+.card-canvas3d-loading { height: auto; white-space: nowrap; }
