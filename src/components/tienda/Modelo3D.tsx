@@ -11,7 +11,7 @@ function Modelo({ url }: { url: string }) {
 
 // Visor 3D de producto: arrastrar para girar, auto-rotación lenta
 // que se reactiva a los segundos de soltar.
-export default function Modelo3D({ src }: { src: string }) {
+export default function Modelo3D({ src, zoom = false }: { src: string; zoom?: boolean }) {
   return (
     <div className="card-canvas3d" data-cursor="Girar">
       <Canvas
@@ -28,7 +28,9 @@ export default function Modelo3D({ src }: { src: string }) {
           <Environment preset="city" />
         </Suspense>
         <OrbitControls
-          enableZoom={false}
+          enableZoom={zoom}
+          minDistance={1.5}
+          maxDistance={6}
           enablePan={false}
           autoRotate
           autoRotateSpeed={2}

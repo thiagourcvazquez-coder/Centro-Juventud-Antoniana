@@ -593,3 +593,106 @@ body::before {
   pointer-events: none;
   white-space: nowrap;
 }
+
+/* ---------- Detalle de producto ---------- */
+.pd {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+.pd-miga {
+  display: flex;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gris);
+  margin-bottom: 40px;
+}
+.pd-miga a { color: var(--celeste); text-decoration: none; }
+.pd-miga a:hover { text-decoration: underline; }
+.pd-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: start;
+}
+.pd-media { position: relative; }
+.pd-media .card-canvas3d {
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(148, 190, 233, 0.15);
+}
+.pd-foto {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+.pd-tabs {
+  display: flex;
+  gap: 0;
+  margin-top: 16px;
+  border: 1px solid rgba(148, 190, 233, 0.25);
+  width: fit-content;
+}
+.pd-tabs button {
+  background: none;
+  border: none;
+  color: var(--gris);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+.pd-tabs button.activo { background: var(--celeste); color: var(--azul-950, #020617); }
+.pd-info { padding-top: 12px; }
+.pd-nombre {
+  font-family: var(--bebas);
+  font-size: clamp(40px, 5vw, 64px);
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  margin: 12px 0 20px;
+}
+.pd-precio {
+  font-family: var(--bebas);
+  font-size: 34px;
+  color: var(--celeste);
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.pd-descuento { color: var(--oro, #e8b04b); font-size: 14px; margin-bottom: 8px; }
+.pd-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gris);
+  margin: 28px 0 10px;
+}
+.pd-info .btn-agregar { margin-top: 28px; width: 100%; }
+.pd-nota { margin-top: 22px; font-size: 12px; color: var(--gris); line-height: 1.7; }
+
+/* ---------- Card: link + badge 3D ---------- */
+.card .card-link { text-decoration: none; color: inherit; display: block; }
+.card-media { position: relative; }
+.card-badge3d {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--celeste);
+  color: var(--azul-950, #020617);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  padding: 4px 8px;
+  border-radius: 2px;
+}
+
+@media (max-width: 860px) {
+  .pd-grid { grid-template-columns: 1fr; gap: 32px; }
+  .pd { padding-top: 100px; }
+}
