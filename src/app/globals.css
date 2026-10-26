@@ -1151,6 +1151,16 @@ header a {
 
 .p-team-name { font-weight: 600; font-size: 15px; }
 
+.p-goles {
+  margin-top: 5px;
+  font-family: var(--font-dm, 'Segoe UI', sans-serif);
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--gris);
+}
+
+.p-goles span { display: block; }
+
 .p-tabs {
   display: flex;
   gap: 8px;
@@ -2352,6 +2362,7 @@ header a {
   }
   .p-match-fecha { font-size: 10px; }
   .p-team-name { font-size: 12px; }
+  .p-goles { font-size: 9.5px; margin-top: 3px; }
   .p-match-score { min-width: 64px; font-size: 20px; }
   .p-match-hora { font-size: 11px; }
   .p-team-logo { width: 20px; height: 20px; }

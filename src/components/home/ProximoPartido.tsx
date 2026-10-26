@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Match, Team } from '@/lib/stats'
+import { goleadores } from '@/lib/stats'
 
 const fecha = (iso: string | null) => {
   if (!iso) return { dia: 'A confirmar', hora: '' }
@@ -20,12 +21,17 @@ function Escudo({ team }: { team?: Team }) {
     : <span className="ed-pp-escudo ed-pp-ini">{ini}</span>
 }
 
-function Lado({ team, score, mostrar }: { team?: Team; score: number | null; mostrar: boolean }) {
+function Lado({ team, score, mostrar, goles }: { team?: Team; score: number | null; mostrar: boolean; goles?: string[] }) {
   return (
     <div className="ed-pp-lado">
       <Escudo team={team} />
       <span className="ed-pp-nombre">{team?.name ?? 'A definir'}</span>
       {mostrar && <span className="ed-pp-score">{score ?? 0}</span>}
+      {mostrar && goles && goles.length > 0 && (
+        <span className="ed-pp-goles">
+          {goles.map((g, i) => <i key={i}>{g}</i>)}
+        </span>
+      )}
     </div>
   )
 }
@@ -52,13 +58,13 @@ export default function ProximoPartido({ next, last }: { next: Match | null; las
       </div>
 
       <div className="ed-pp-card">
-        <Lado team={m.home_team} score={m.home_score} mostrar={vivo || jugado} />
+        <Lado team={m.home_team} score={m.home_score} mostrar={vivo || jugado} goles={goleadores(m, 'home')} />
         <div className="ed-pp-medio">
           {vivo || jugado ? <span className="ed-pp-vs">—</span> : <span className="ed-pp-vs ed-serif">vs</span>}
           <span className="ed-pp-dia">{f.dia}</span>
           {f.hora && !jugado && <span className="ed-pp-hora">{f.hora}</span>}
         </div>
-        <Lado team={m.away_team} score={m.away_score} mostrar={vivo || jugado} />
+        <Lado team={m.away_team} score={m.away_score} mostrar={vivo || jugado} goles={goleadores(m, 'away')} />
       </div>
     </section>
   )

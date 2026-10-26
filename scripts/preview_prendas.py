@@ -45,7 +45,10 @@ s.collection.objects.link(cam)
 cam.data.type = 'ORTHO'
 cam.data.ortho_scale = 1.35 * len(slugs) + .2
 cx = (x - 1.35) / 2
-if vista == 'back':
+if vista == 'side':
+    cam.location = (-5, 0, 0)
+    cam.rotation_euler = (radians(90), 0, radians(-90))
+elif vista == 'back':
     cam.location = (cx, 5, 0)
     cam.rotation_euler = (radians(90), 0, radians(180))
 else:

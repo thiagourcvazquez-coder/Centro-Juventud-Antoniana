@@ -20,7 +20,7 @@ const FICHAS: [RegExp, Ficha][] = [
   [/entren/, { handle: 'remera-entreno-importada-juventud-antoniana-2026', modelo: '/modelos/remera-entreno.glb' }],
   [/musculosa/, { handle: 'remera-entrenamiento-m-c-juventud-antoniana-2024', modelo: '/modelos/musculosa-azul.glb' }],
   [/oficial|titular/, { handle: 'camiseta-oficial-juventud-antoniana-t-2026', foto: 4, modelo: '/modelos/camiseta-oficial.glb' }],
-  [/campera|camperon|parka/, { handle: 'camperon-importado-juventud-antoniana-2026', modelo: '/modelos/campera.glb' }],
+  [/campera|camperon|parka/, { handle: 'camperon-corto-importado-juventud-antoniana-2026', modelo: '/modelos/camperon-corto.glb' }],
   [/rompevientos|anorak/, { handle: 'anorak-importado-juventud-antoniana-2026', modelo: '/modelos/rompevientos.glb' }],
   [/buzo/, { handle: 'buzo-deportivo-importado-juventud-antoniana-2026', modelo: '/modelos/buzo-deportivo.glb' }],
   [/gorra/, { handle: 'gorra-cja-importada-2025', modelo: '/modelos/gorra.glb' }],

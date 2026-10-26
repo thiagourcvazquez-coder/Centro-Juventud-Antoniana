@@ -327,6 +327,8 @@
 .ed-pp-ini { display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--linea); font-family: var(--display); font-size: 36px; }
 .ed-pp-nombre { font-family: var(--display); font-size: clamp(24px, 3vw, 44px); text-transform: uppercase; line-height: 1; }
 .ed-pp-score { font-family: var(--display); font-size: clamp(60px, 9vw, 140px); line-height: 0.9; color: var(--celeste); }
+.ed-pp-goles { display: flex; flex-direction: column; gap: 2px; font-size: 12px; color: var(--gris); font-style: normal; }
+.ed-pp-goles i { font-style: normal; }
 .ed-pp-medio { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
 .ed-pp-vs { font-size: clamp(40px, 5vw, 76px); line-height: 1; color: var(--celeste); font-family: var(--display); }
 .ed-pp-vs.ed-serif { font-family: var(--serif); }

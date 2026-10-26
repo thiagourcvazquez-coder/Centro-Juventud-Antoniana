@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import type { Match, StatsData } from '@/lib/stats'
+import { goleadores } from '@/lib/stats'
 
 const JUVENTUD_SLUG = 'juventud-antoniana'
 
@@ -40,9 +41,20 @@ function TeamName({ name, short, logo }: { name: string; short: string | null; l
   )
 }
 
+function Goles({ m, side }: { m: Match; side: 'home' | 'away' }) {
+  const lista = goleadores(m, side)
+  if (!lista.length) return null
+  return (
+    <div className="p-goles">
+      {lista.map((g, i) => <span key={i}>{g}</span>)}
+    </div>
+  )
+}
+
 function MatchRow({ m, highlight }: { m: Match; highlight?: boolean }) {
   const terminado = m.status === 'FINISHED'
   const enVivo = m.status === 'LIVE' || m.status === 'HT'
+  const conGoles = terminado || enVivo
   return (
     <div className={`p-match${highlight ? ' p-match-juv' : ''}`}>
       <span className="p-match-fecha">
@@ -50,6 +62,7 @@ function MatchRow({ m, highlight }: { m: Match; highlight?: boolean }) {
       </span>
       <div className="p-match-local">
         <TeamName name={m.home_team?.name ?? '?'} short={m.home_team?.short_name ?? null} logo={m.home_team?.logo_url ?? null} />
+        {conGoles && <Goles m={m} side="home" />}
       </div>
       <div className="p-match-score">
         {enVivo ? (
@@ -62,6 +75,7 @@ function MatchRow({ m, highlight }: { m: Match; highlight?: boolean }) {
       </div>
       <div className="p-match-visita">
         <TeamName name={m.away_team?.name ?? '?'} short={m.away_team?.short_name ?? null} logo={m.away_team?.logo_url ?? null} />
+        {conGoles && <Goles m={m} side="away" />}
       </div>
     </div>
   )
